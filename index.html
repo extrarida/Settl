@@ -25,8 +25,6 @@ h1.screen-title{font-size:28px;font-weight:700;color:#0f172a;letter-spacing:-0.5
 .group-card{background:#fff;border-radius:20px;padding:18px;margin-bottom:12px;border:1px solid rgba(0,0,0,0.06);cursor:pointer;transition:transform 0.15s;}
 .group-card:active{transform:scale(0.98);}
 .card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;}
-.card-icon{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;}
-.icon-teal{background:#E6FAF7;}
 .badge{font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;letter-spacing:0.2px;}
 .badge-green{background:#ECFDF5;color:#059669;}
 .badge-amber{background:#FFFBEB;color:#D97706;}
@@ -48,6 +46,9 @@ h1.screen-title{font-size:28px;font-weight:700;color:#0f172a;letter-spacing:-0.5
 .form-input{width:100%;padding:14px 16px;background:#fff;border:1.5px solid #E2E8F0;border-radius:14px;font-size:16px;color:#0f172a;font-family:inherit;outline:none;transition:border-color 0.2s;margin-bottom:16px;}
 .form-input:focus{border-color:#00C9A7;}
 .form-group{margin-bottom:4px;}
+.field-error{font-size:12px;color:#E11D48;margin-top:-10px;margin-bottom:10px;padding-left:4px;display:none;}
+.field-error.visible{display:block;}
+.form-input.error{border-color:#E11D48 !important;}
 .participant-row{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:#fff;border-radius:14px;margin-bottom:8px;border:1.5px solid transparent;cursor:pointer;transition:border-color 0.15s,background 0.15s;}
 .participant-row.selected{border-color:#00C9A7;background:#E6FAF7;}
 .participant-left{display:flex;align-items:center;gap:12px;}
@@ -103,9 +104,9 @@ h1.screen-title{font-size:28px;font-weight:700;color:#0f172a;letter-spacing:-0.5
 .stat-value.green{color:#059669;}
 .section-header{font-size:12px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:10px;margin-top:4px;}
 .quick-stat{display:flex;gap:10px;margin-bottom:16px;}
-.qs-card{flex:1;background:#fff;border-radius:16px;padding:14px;border:1px solid rgba(0,0,0,0.06);text-align:center;}
-.qs-val{font-size:20px;font-weight:700;color:#0f172a;}
-.qs-lbl{font-size:11px;color:#94a3b8;margin-top:2px;}
+.qs-card{flex:1;background:#fff;border-radius:16px;padding:14px;border:1px solid rgba(0,0,0,0.06);text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.qs-val{font-size:20px;font-weight:700;color:#0f172a;line-height:1.2;}
+.qs-lbl{font-size:11px;color:#94a3b8;margin-top:4px;}
 .greeting-text{font-size:14px;color:#64748b;margin-bottom:2px;}
 .float-btn-wrap{position:absolute;bottom:90px;left:20px;right:20px;z-index:60;}
 .screen-transition{animation:slideIn 0.3s cubic-bezier(0.25,0.46,0.45,0.94);}
@@ -140,8 +141,8 @@ h1.screen-title{font-size:28px;font-weight:700;color:#0f172a;letter-spacing:-0.5
   </div>
   <div class="screen-content">
     <div class="quick-stat">
-      <div class="qs-card"><div class="qs-val" id="qs-collected" style="color:#00C9A7;">AED 0</div><div class="qs-lbl">Collected</div></div>
-      <div class="qs-card"><div class="qs-val" id="qs-pending" style="color:#14B8A6;">AED 0</div><div class="qs-lbl">Pending</div></div>
+      <div class="qs-card"><div class="qs-val" id="qs-collected">AED 0</div><div class="qs-lbl">Collected</div></div>
+      <div class="qs-card"><div class="qs-val" id="qs-pending">AED 0</div><div class="qs-lbl">Pending</div></div>
       <div class="qs-card"><div class="qs-val" id="qs-active">0</div><div class="qs-lbl">Active</div></div>
     </div>
     <div class="section-header" id="home-section-header">Active Events</div>
@@ -165,10 +166,26 @@ h1.screen-title{font-size:28px;font-weight:700;color:#0f172a;letter-spacing:-0.5
   </div>
   <div class="screen-content">
     <div class="card">
-      <div class="form-group"><label class="form-label">Event Name</label><input type="text" class="form-input" placeholder="e.g. Friday Padel" id="ev-name"/></div>
-      <div class="form-group"><label class="form-label">Total Cost (AED)</label><input type="number" class="form-input" placeholder="0" id="ev-cost"/></div>
-      <div class="form-group"><label class="form-label">Date</label><input type="date" class="form-input" id="ev-date"/></div>
-      <div class="form-group"><label class="form-label">Venue</label><input type="text" class="form-input" placeholder="e.g. JCC Padel Club" id="ev-venue" style="margin-bottom:0;"/></div>
+      <div class="form-group">
+        <label class="form-label">Event Name</label>
+        <input type="text" class="form-input" placeholder="e.g. Friday Padel" id="ev-name" oninput="clearFieldError('ev-name')"/>
+        <div class="field-error" id="err-name">Please enter an event name</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Total Cost (AED)</label>
+        <input type="number" class="form-input" placeholder="0" id="ev-cost" oninput="clearFieldError('ev-cost')"/>
+        <div class="field-error" id="err-cost">Please enter a valid cost greater than 0</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Date</label>
+        <input type="date" class="form-input" id="ev-date" onchange="clearFieldError('ev-date')"/>
+        <div class="field-error" id="err-date">Please select today's date or a future date</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Venue</label>
+        <input type="text" class="form-input" placeholder="e.g. JCC Padel Club" id="ev-venue" style="margin-bottom:0;" oninput="clearFieldError('ev-venue')"/>
+        <div class="field-error" id="err-venue">Please enter a venue</div>
+      </div>
     </div>
     <div style="display:flex;align-items:center;gap:10px;padding:14px 16px;background:#F0FDF4;border-radius:14px;border:1px solid #BBF7D0;margin-bottom:16px;">
       <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7" fill="#10B981"/><path d="M6 9l2 2 4-4" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -355,6 +372,17 @@ h1.screen-title{font-size:28px;font-weight:700;color:#0f172a;letter-spacing:-0.5
   </div>
 </div>
 
+<!-- WELCOME SPLASH -->
+<div id="welcome-splash" style="position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(160deg,#0F1F3D 0%,#0a1628 60%,#003d30 100%);z-index:998;border-radius:42px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 32px;cursor:pointer;" onclick="dismissWelcome()">
+  <div style="width:72px;height:72px;background:linear-gradient(135deg,#00C9A7,#0F1F3D);border-radius:22px;display:flex;align-items:center;justify-content:center;margin-bottom:28px;box-shadow:0 8px 32px rgba(0,201,167,0.3);">
+    <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><path d="M18 6l3.5 7 7.5 1.1-5.5 5.3 1.3 7.5L18 23.5l-6.8 3.4 1.3-7.5L7 14.1l7.5-1.1L18 6z" fill="white" opacity="0.95"/></svg>
+  </div>
+  <div style="font-size:32px;font-weight:700;color:white;letter-spacing:-0.5px;margin-bottom:8px;">Settl</div>
+  <div style="font-size:15px;color:rgba(255,255,255,0.6);margin-bottom:48px;line-height:1.5;">Pay once.<br/>Chase no one.</div>
+  <div style="font-size:13px;color:rgba(255,255,255,0.4);">Tap to get started</div>
+  <div style="position:absolute;bottom:36px;left:0;right:0;text-align:center;font-size:11px;color:rgba(255,255,255,0.25);">Group payment collection · UAE</div>
+</div>
+
 </div>
 </div>
 </div>
@@ -387,6 +415,28 @@ function showModal(title,body,confirmLabel,onConfirm){
 }
 function closeModal(){document.getElementById('app-modal').style.display='none';}
 
+function dismissWelcome(){
+  var splash=document.getElementById('welcome-splash');
+  splash.style.transition='opacity 0.4s ease';
+  splash.style.opacity='0';
+  setTimeout(function(){splash.style.display='none';},400);
+}
+
+function showFieldError(inputId,message){
+  var input=document.getElementById(inputId);
+  var errId='err-'+inputId.replace('ev-','');
+  var err=document.getElementById(errId);
+  if(input)input.classList.add('error');
+  if(err){if(message)err.textContent=message;err.classList.add('visible');}
+}
+function clearFieldError(inputId){
+  var input=document.getElementById(inputId);
+  var errId='err-'+inputId.replace('ev-','');
+  var err=document.getElementById(errId);
+  if(input)input.classList.remove('error');
+  if(err)err.classList.remove('visible');
+}
+
 var ALL_PARTICIPANTS=[
   {id:'sara',initials:'SR',name:'Sara Al Rashid',role:'Regular player',av:'av1'},
   {id:'ahmed',initials:'AK',name:'Ahmed Khan',role:'Regular player',av:'av2'},
@@ -403,17 +453,12 @@ function freqDays(f){return f==='Weekly'?7:f==='Fortnightly'?14:30;}
 
 function recalcTotals(){
   appState.totalCollected=appState.groups.reduce(function(sum,g){
-    if(g.cancelled)return sum;
-    if(g.completed)return sum+g.cost;
-    if(g.autoCollect)return sum;
-    var tp=g.participants.length+1,bs=Math.floor(g.cost/tp),pc=g.payments.filter(function(p){return p.paid;}).length;
-    return sum+pc*bs;
+    if(g.cancelled)return sum;if(g.completed)return sum+g.cost;if(g.autoCollect)return sum;
+    var tp=g.participants.length+1,bs=Math.floor(g.cost/tp),pc=g.payments.filter(function(p){return p.paid;}).length;return sum+pc*bs;
   },0);
   appState.totalPending=appState.groups.reduce(function(sum,g){
-    if(g.completed||g.cancelled)return sum;
-    if(g.autoCollect)return sum+g.cost;
-    var tp=g.participants.length+1,bs=Math.floor(g.cost/tp),pc=g.payments.filter(function(p){return p.paid;}).length;
-    return sum+(g.participants.length-pc)*bs;
+    if(g.completed||g.cancelled)return sum;if(g.autoCollect)return sum+g.cost;
+    var tp=g.participants.length+1,bs=Math.floor(g.cost/tp),pc=g.payments.filter(function(p){return p.paid;}).length;return sum+(g.participants.length-pc)*bs;
   },0);
 }
 
@@ -448,6 +493,8 @@ function startNewEvent(){
   selectedSet=new Set(['sara','ahmed','lena','omar']);autoOn=true;
   document.getElementById('ev-name').value='';document.getElementById('ev-cost').value='';
   document.getElementById('ev-date').value='';document.getElementById('ev-venue').value='';
+  document.getElementById('ev-date').min=new Date().toISOString().split('T')[0];
+  clearFieldError('ev-name');clearFieldError('ev-cost');clearFieldError('ev-date');clearFieldError('ev-venue');
   document.getElementById('toggle-track').classList.remove('off');
   document.getElementById('auto-toggle-title').textContent='Auto-collection enabled';
   document.getElementById('auto-toggle-sub').textContent='Payments sent after each session';
@@ -455,27 +502,18 @@ function startNewEvent(){
 }
 
 function saveCurrentEventInProgress(){
-  if(statusEntryPoint!=='new')return;
-  var ev=appState.currentEvent;if(!ev.name||!ev.cost)return;
+  if(statusEntryPoint!=='new')return;var ev=appState.currentEvent;if(!ev.name||!ev.cost)return;
   var payments=appState._pendingPayments||appState.selectedParticipants.map(function(p){return {participantId:p.id,paid:false};});
   var approvals=appState._pendingApprovals||appState.selectedParticipants.map(function(p){return {participantId:p.id,approved:false};});
   var existing=appState.groups.findIndex(function(g){return g.name===ev.name&&g.name!==''&&g.date===ev.date&&!g.completed&&!g.cancelled;});
   var obj={name:ev.name,cost:ev.cost,date:ev.date,venue:ev.venue,autoCollect:ev.autoCollect,frequency:ev.frequency,participants:appState.selectedParticipants.slice(),payments:payments,approvals:approvals,completed:false,cancelled:false,sessionCount:0};
-  if(existing>=0){appState.groups[existing]=obj;}else{appState.groups.push(obj);}
-  recalcTotals();
+  if(existing>=0){appState.groups[existing]=obj;}else{appState.groups.push(obj);}recalcTotals();
 }
 
 function statusGoBack(){saveCurrentEventInProgress();goTo('screen-home');}
 function getBaseShare(cost,totalPpl){return Math.floor(cost/totalPpl);}
-
-function getActiveGroupPayments(){
-  if(statusEntryPoint==='existing'&&appState._viewingGroupIndex>=0)return appState.groups[appState._viewingGroupIndex].payments||[];
-  return appState._pendingPayments||[];
-}
-function getActiveGroupApprovals(){
-  if(statusEntryPoint==='existing'&&appState._viewingGroupIndex>=0)return appState.groups[appState._viewingGroupIndex].approvals||[];
-  return appState._pendingApprovals||[];
-}
+function getActiveGroupPayments(){if(statusEntryPoint==='existing'&&appState._viewingGroupIndex>=0)return appState.groups[appState._viewingGroupIndex].payments||[];return appState._pendingPayments||[];}
+function getActiveGroupApprovals(){if(statusEntryPoint==='existing'&&appState._viewingGroupIndex>=0)return appState.groups[appState._viewingGroupIndex].approvals||[];return appState._pendingApprovals||[];}
 
 function renderGroupCard(g,i){
   var ps=g.participants,totalPpl=ps.length+1,bs=getBaseShare(g.cost,totalPpl);
@@ -491,11 +529,15 @@ function renderGroupCard(g,i){
   }
   var dateStr=g.date?formatDateShort(g.date):'';
   var infoRow='';
-  if(!g.completed&&g.frequency&&g.autoCollect&&g.date){var nd=new Date(g.date+'T12:00:00');nd.setDate(nd.getDate()+freqDays(g.frequency));infoRow='<div style="margin-top:6px;font-size:11px;color:#00C9A7;font-weight:500;">↻ '+esc(g.frequency)+' · Next: '+formatDateShort(nd)+'</div>';}
-  else if(!g.autoCollect&&!g.frequency&&!g.completed){infoRow='<div style="margin-top:6px;font-size:11px;color:#94a3b8;">Manual collection</div>';}
-  var titleBlock='<div class="card-title">'+esc(g.name)+'</div>'+(dateStr?'<div style="font-size:12px;font-weight:500;color:#0f172a;margin-top:1px;">'+dateStr+'</div>':'')+(g.venue?'<div class="card-meta">'+esc(g.venue)+'</div>':'');
+  if(!g.completed&&!g.cancelled){
+    if(g.autoCollect&&g.frequency&&g.date){var nd=new Date(g.date+'T12:00:00');nd.setDate(nd.getDate()+freqDays(g.frequency));infoRow='<div style="margin-top:6px;font-size:11px;color:#00C9A7;font-weight:500;">↻ '+esc(g.frequency)+' · Auto-collect · Next: '+formatDateShort(nd)+'</div>';}
+    else if(g.autoCollect&&!g.frequency){infoRow='<div style="margin-top:6px;font-size:11px;color:#00C9A7;font-weight:500;">⚡ Auto-collect</div>';}
+    else if(!g.autoCollect){infoRow='<div style="margin-top:6px;font-size:11px;color:#94a3b8;">✎ Manual collection</div>';}
+  }
+  var venueStr=(dateStr&&g.venue)?dateStr+' · '+esc(g.venue):(dateStr||(g.venue?esc(g.venue):''));
+  var titleBlock='<div style="font-size:15px;font-weight:600;color:#0f172a;line-height:1.3;">'+esc(g.name)+'</div>'+(venueStr?'<div style="font-size:12px;color:#94a3b8;margin-top:2px;">'+venueStr+'</div>':'');
   var costDisplay=g.completed?'AED '+g.cost:(g.autoCollect?'AED 0':'AED '+(g.payments?g.payments.filter(function(p){return p.paid;}).length*bs:0));
-  return '<div class="group-card" onclick="loadGroupAndView('+i+')"><div class="card-header"><div style="display:flex;align-items:center;gap:12px;"><div class="card-icon icon-teal" style="font-size:22px;">🏓</div><div>'+titleBlock+'</div></div>'+badgeHtml+'</div><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><span style="font-size:13px;color:#64748b;">'+totalPpl+' participants</span><span style="font-size:13px;color:#64748b;"><span style="font-weight:600;color:#0f172a;">'+costDisplay+'</span> / AED '+g.cost+'</span></div><div class="progress-bar-wrap"><div class="progress-bar-fill '+barClass+'" style="width:'+pct+'%;"></div></div><div class="progress-labels"><span class="progress-label">'+progressLeft+'</span><span class="progress-label">'+progressRight+'</span></div>'+infoRow+'</div>';
+  return '<div class="group-card" onclick="loadGroupAndView('+i+')"><div class="card-header"><div>'+titleBlock+'</div>'+badgeHtml+'</div><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><span style="font-size:13px;color:#64748b;">'+totalPpl+' participants</span><span style="font-size:13px;color:#64748b;"><span style="font-weight:600;color:#0f172a;">'+costDisplay+'</span> / AED '+g.cost+'</span></div><div class="progress-bar-wrap"><div class="progress-bar-fill '+barClass+'" style="width:'+pct+'%;"></div></div><div class="progress-labels"><span class="progress-label">'+progressLeft+'</span><span class="progress-label">'+progressRight+'</span></div>'+infoRow+'</div>';
 }
 
 function renderHome(){
@@ -521,23 +563,21 @@ function renderGroupsTab(){
 }
 
 function renderActivity(){
-  var c=document.getElementById('activity-content');
-  if(!appState.groups.length){c.innerHTML=emptyStateHTML();return;}
+  var c=document.getElementById('activity-content');if(!appState.groups.length){c.innerHTML=emptyStateHTML();return;}
   var rows=appState.groups.slice().reverse().map(function(g){
     var origIdx=appState.groups.indexOf(g);
     var chip=g.cancelled?'<span class="status-chip" style="background:#FFF1F2;color:#E11D48;">Cancelled</span>':g.completed?'<span class="status-chip chip-paid">Complete</span>':g.autoCollect?'<span class="status-chip" style="background:#FFFBEB;color:#D97706;">Awaiting</span>':'<span class="status-chip chip-scheduled">In Progress</span>';
     var dateStr=g.date?formatDateShort(g.date):'No date';
     var sessLine=g.frequency?(g.sessionCount>0?'<div style="font-size:11px;color:#00C9A7;margin-top:2px;">'+g.sessionCount+' sessions completed</div>':'<div style="font-size:11px;color:#00C9A7;margin-top:2px;">Session 1</div>'):'';
-    return '<div class="activity-row" onclick="openReceipt('+origIdx+')"><div><div style="font-size:15px;font-weight:600;color:#0f172a;">'+esc(g.name)+'</div><div style="font-size:12px;color:#94a3b8;margin-top:2px;">'+dateStr+' · AED '+g.cost+'</div>'+sessLine+'</div><div style="display:flex;align-items:center;gap:8px;">'+chip+'<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 3l4 4-4 4" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>';
+    var methodLine=g.autoCollect?'<div style="font-size:11px;color:#00C9A7;margin-top:2px;">⚡ Auto-collect'+(g.frequency?' · '+g.frequency:'')+'</div>':'<div style="font-size:11px;color:#94a3b8;margin-top:2px;">✎ Manual collection</div>';
+    return '<div class="activity-row" onclick="openReceipt('+origIdx+')"><div><div style="font-size:15px;font-weight:600;color:#0f172a;">'+esc(g.name)+'</div><div style="font-size:12px;color:#94a3b8;margin-top:2px;">'+dateStr+' · AED '+g.cost+'</div>'+sessLine+methodLine+'</div><div style="display:flex;align-items:center;gap:8px;">'+chip+'<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 3l4 4-4 4" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>';
   }).join('');
   c.innerHTML='<div class="card" style="padding:4px 18px;">'+rows+'</div>';
 }
 
 function openReceipt(i){
-  receiptGroupIndex=i;var g=appState.groups[i];
-  var totalPpl=g.participants.length+1,bs=getBaseShare(g.cost,totalPpl),rem=g.cost-bs*totalPpl;
-  var dateStr=g.date?formatDateShort(g.date):'No date';
-  var methodStr=g.frequency&&g.autoCollect?('↻ '+esc(g.frequency)+' · Auto-collect'):'Manual collection';
+  receiptGroupIndex=i;var g=appState.groups[i];var totalPpl=g.participants.length+1,bs=getBaseShare(g.cost,totalPpl),rem=g.cost-bs*totalPpl;
+  var dateStr=g.date?formatDateShort(g.date):'No date';var methodStr=g.frequency&&g.autoCollect?('↻ '+esc(g.frequency)+' · Auto-collect'):'Manual collection';
   var isManualInProgress=!g.completed&&!g.autoCollect&&!g.cancelled;
   var rows=g.participants.map(function(p){
     var chip;
@@ -548,7 +588,14 @@ function openReceipt(i){
   var footer=g.completed&&!g.cancelled?'<div style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 0;border-top:1px solid #F1F5F9;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" fill="#ECFDF5"/><path d="M5 8l2 2 4-4" stroke="#059669" stroke-width="1.5" stroke-linecap="round"/></svg><span style="font-size:13px;font-weight:600;color:#059669;">Fully collected</span></div>':'';
   var html='';
   if(g.cancelled){html+='<div style="background:#FFF1F2;border:1.5px solid #E11D48;border-radius:16px;padding:18px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;"><div><div style="font-size:17px;font-weight:700;color:#E11D48;">'+esc(g.name)+'</div><div style="font-size:12px;color:#F87171;margin-top:3px;">'+dateStr+(g.venue?' · '+esc(g.venue):'')+'</div></div><span style="font-size:11px;font-weight:600;background:#FFF1F2;color:#E11D48;padding:4px 10px;border-radius:20px;border:1px solid #FCA5A5;">Cancelled</span></div>';}
-  else{var bh=g.completed?'<span class="badge badge-green">Complete</span>':'<span class="badge badge-amber">In Progress</span>';html+='<div style="background:linear-gradient(135deg,#0F1F3D,#00C9A7);border-radius:16px;padding:18px;margin-bottom:12px;"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;"><div><div style="font-size:17px;font-weight:700;color:white;">'+esc(g.name)+'</div><div style="font-size:12px;color:rgba(255,255,255,0.75);margin-top:3px;">'+dateStr+(g.venue?' · '+esc(g.venue):'')+'</div></div>'+bh+'</div></div>';}
+  else{
+    var bh=g.completed?'<span class="badge badge-green">Complete</span>':'<span class="badge badge-amber">In Progress</span>';
+    html+='<div style="background:linear-gradient(135deg,#0F1F3D,#00C9A7);border-radius:16px;padding:18px;margin-bottom:12px;"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;"><div>'
+      +'<div style="font-size:17px;font-weight:700;color:white;">'+esc(g.name)+'</div>'
+      +'<div style="font-size:12px;color:rgba(255,255,255,0.75);margin-top:3px;">'+dateStr+(g.venue?' · '+esc(g.venue):'')+'</div>'
+      +'<div style="margin-top:8px;"><span style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;background:rgba(255,255,255,0.15);color:white;">'+(g.autoCollect?'⚡ Auto-collect':'✎ Manual')+'</span></div>'
+      +'</div>'+bh+'</div></div>';
+  }
   html+='<div class="card"><div style="font-size:12px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:12px;">Cost Summary</div><div class="stat-row"><span class="stat-label">Total cost</span><span class="stat-value">AED '+g.cost+'</span></div><div class="stat-row" style="border-top:1px solid #F1F5F9;"><span class="stat-label">Per person</span><span class="stat-value">AED '+bs+(rem?'+':'')+' </span></div><div class="stat-row" style="border-top:1px solid #F1F5F9;"><span class="stat-label">Participants</span><span class="stat-value">'+totalPpl+' players</span></div><div class="stat-row" style="border-top:1px solid #F1F5F9;"><span class="stat-label">Collection</span><span class="stat-value" style="font-size:12px;color:#00A389;">'+methodStr+'</span></div></div>';
   html+='<div class="card" style="padding:4px 18px;">'+rows+footer+'</div>';
   document.getElementById('receipt-content').innerHTML=html;goTo('screen-receipt');
@@ -594,8 +641,18 @@ function loadGroupAndView(i){
 }
 
 function saveEventAndNext(){
-  var n=document.getElementById('ev-name').value.trim(),c=parseFloat(document.getElementById('ev-cost').value)||0,d=document.getElementById('ev-date').value,v=document.getElementById('ev-venue').value.trim();
-  if(!n){alert('Please enter an event name.');return;}if(!c){alert('Please enter a cost.');return;}
+  var n=document.getElementById('ev-name').value.trim();
+  var c=parseFloat(document.getElementById('ev-cost').value)||0;
+  var d=document.getElementById('ev-date').value;
+  var v=document.getElementById('ev-venue').value.trim();
+  var valid=true;
+  clearFieldError('ev-name');clearFieldError('ev-cost');clearFieldError('ev-date');clearFieldError('ev-venue');
+  if(!n){showFieldError('ev-name','Please enter an event name');valid=false;}
+  if(!c||c<=0){showFieldError('ev-cost','Please enter a cost greater than 0');valid=false;}
+  if(!d){showFieldError('ev-date','Please select a date');valid=false;}
+  else{var today=new Date();today.setHours(0,0,0,0);var selected=new Date(d+'T00:00:00');if(selected<today){showFieldError('ev-date','Please select today or a future date');valid=false;}}
+  if(!v){showFieldError('ev-venue','Please enter a venue');valid=false;}
+  if(!valid)return;
   appState.currentEvent.name=n;appState.currentEvent.cost=c;appState.currentEvent.date=d;appState.currentEvent.venue=v;
   document.getElementById('p-subtitle').textContent="Select who's joining "+n;goTo('screen-participants');
 }
@@ -615,14 +672,23 @@ function toggleP(id){
 
 function updateSplitDisplay(){var cost=appState.currentEvent.cost||0,count=selectedSet.size+1,bs=count>0?getBaseShare(cost,count):0;document.getElementById('split-total-display').textContent='AED '+cost;document.getElementById('split-display').textContent='AED '+bs;document.getElementById('split-count').textContent=count+' players';}
 
-function saveParticipantsAndNext(){appState.selectedParticipants=ALL_PARTICIPANTS.filter(function(p){return selectedSet.has(p.id);});if(!appState.selectedParticipants.length){alert('Select at least one participant.');return;}goTo('screen-automation');}
+function saveParticipantsAndNext(){
+  appState.selectedParticipants=ALL_PARTICIPANTS.filter(function(p){return selectedSet.has(p.id);});
+  if(!appState.selectedParticipants.length){
+    document.getElementById('modal-confirm-btn').style.background='#00C9A7';
+    document.getElementById('modal-confirm-btn').style.color='#0F1F3D';
+    showModal('No players selected','Please select at least one participant to continue.','Got it',function(){
+      document.getElementById('modal-confirm-btn').style.background='#E11D48';
+      document.getElementById('modal-confirm-btn').style.color='white';
+    });
+    return;
+  }
+  goTo('screen-automation');
+}
 
 function toggleAuto(){autoOn=!autoOn;var track=document.getElementById('toggle-track'),title=document.getElementById('auto-toggle-title'),sub=document.getElementById('auto-toggle-sub');if(autoOn){track.classList.remove('off');title.textContent='Auto-collection enabled';sub.textContent='Payments sent after each session';}else{track.classList.add('off');title.textContent='Auto-collection disabled';sub.textContent='You will collect payments manually';}}
-
 function saveAutoAndNext(){appState.currentEvent.autoCollect=autoOn;updateRecurringPreview();goTo('screen-recurring');}
-
 function selectFreq(btn){document.querySelectorAll('#freq-pills .pill-btn').forEach(function(b){b.classList.remove('active');});btn.classList.add('active');selectedFreq=btn.getAttribute('data-freq');updateRecurringPreview();}
-
 function updateRecurringPreview(){var d=appState.currentEvent.date;if(!d){document.getElementById('next-session-preview').textContent='—';document.getElementById('next-session-sub').textContent='Add a date on the previous screen';return;}var base=new Date(d+'T12:00:00');base.setDate(base.getDate()+freqDays(selectedFreq));document.getElementById('next-session-preview').textContent=formatDateLong(base);document.getElementById('next-session-sub').textContent=selectedFreq+' · Auto-collect will trigger automatically';}
 
 function saveRecurringAndNext(doRecur){
@@ -634,9 +700,7 @@ function saveRecurringAndNext(doRecur){
 }
 
 function markApproved(participantId){var approvals=getActiveGroupApprovals(),entry=approvals.find(function(a){return a.participantId===participantId;});if(entry){entry.approved=true;if(statusEntryPoint==='existing'&&appState._viewingGroupIndex>=0)appState.groups[appState._viewingGroupIndex].approvals=approvals;recalcTotals();renderStatusScreen();}}
-
 function markPaid(participantId){var payments=getActiveGroupPayments(),entry=payments.find(function(p){return p.participantId===participantId;});if(entry){entry.paid=true;if(statusEntryPoint==='existing'&&appState._viewingGroupIndex>=0)appState.groups[appState._viewingGroupIndex].payments=payments;else appState._pendingPayments=payments;recalcTotals();renderStatusScreen();}}
-
 function markUnpaid(participantId){var payments=getActiveGroupPayments(),entry=payments.find(function(p){return p.participantId===participantId;});if(entry){entry.paid=false;if(statusEntryPoint==='existing'&&appState._viewingGroupIndex>=0)appState.groups[appState._viewingGroupIndex].payments=payments;else appState._pendingPayments=payments;recalcTotals();renderStatusScreen();}}
 
 function renderStatusScreen(){
@@ -697,8 +761,17 @@ function viewSummary(){
 }
 
 function cancelEvent(){
-  var label=appState.currentEvent.frequency?'Cancel recurring series':'Cancel event',body=appState.currentEvent.frequency?'All future sessions will be cancelled. This cannot be undone.':'This event will be cancelled. This cannot be undone.';
-  showModal(label,body,'Yes, cancel',function(){var idx=appState._viewingGroupIndex;if(idx>=0){appState.groups[idx].cancelled=true;appState.groups[idx].completed=true;}recalcTotals();statusEntryPoint='new';appState._viewingGroupIndex=-1;goTo('screen-home');});
+  var isRecurring=!!appState.currentEvent.frequency;
+  var label=isRecurring?'Cancel recurring series?':'Cancel this event?';
+  var body=isRecurring?'This will permanently cancel all future sessions of this recurring event. Participants will no longer be charged. This cannot be undone.':'This event will be permanently cancelled. This cannot be undone.';
+  var confirmLabel=isRecurring?'Yes, cancel series':'Yes, cancel event';
+  document.getElementById('modal-confirm-btn').style.background='#E11D48';
+  document.getElementById('modal-confirm-btn').style.color='white';
+  showModal(label,body,confirmLabel,function(){
+    var idx=appState._viewingGroupIndex;
+    if(idx>=0){appState.groups[idx].cancelled=true;appState.groups[idx].completed=true;}
+    recalcTotals();statusEntryPoint='new';appState._viewingGroupIndex=-1;goTo('screen-home');
+  });
 }
 
 function finishAndGoHome(){
@@ -719,4 +792,9 @@ function esc(str){return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').
 buildNav('nav-home','screen-home');
 renderHome();
 updateRecurringPreview();
+document.getElementById('ev-date').min=new Date().toISOString().split('T')[0];
+setTimeout(function(){
+  var splash=document.getElementById('welcome-splash');
+  if(splash){splash.style.transition='opacity 0.5s ease';splash.style.opacity='0';setTimeout(function(){splash.style.display='none';},500);}
+},2500);
 </script>
