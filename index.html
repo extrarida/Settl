@@ -1,4 +1,9 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Settl</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sans-serif;}
@@ -27,12 +32,14 @@ h1.screen-title{font-size:28px;font-weight:700;color:#0f172a;letter-spacing:-0.5
 .card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;}
 .badge{font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;letter-spacing:0.2px;}
 .badge-green{background:#ECFDF5;color:#059669;}
-.badge-amber{background:#FFFBEB;color:#D97706;}
+.badge-amber{background:#FFF1F0;color:#E05A50;}
+.badge-slate{background:#E6FAF7;color:#0F766E;}
 .badge-teal{background:#E6FAF7;color:#00A389;}
 .progress-bar-wrap{height:6px;background:#F1F5F9;border-radius:6px;overflow:hidden;margin:12px 0 8px;}
 .progress-bar-fill{height:100%;border-radius:6px;transition:width 0.6s ease;}
 .fill-teal{background:linear-gradient(90deg,#00C9A7,#14B8A6);}
-.fill-amber{background:linear-gradient(90deg,#F59E0B,#FBBF24);}
+.fill-amber{background:linear-gradient(90deg,#F97066,#FB8A80);}
+.fill-slate{background:linear-gradient(90deg,#00C9A7,#5EEAD4);}
 .fill-green{background:linear-gradient(90deg,#10B981,#34D399);}
 .progress-labels{display:flex;justify-content:space-between;}
 .progress-label{font-size:12px;color:#94a3b8;}
@@ -85,7 +92,8 @@ h1.screen-title{font-size:28px;font-weight:700;color:#0f172a;letter-spacing:-0.5
 .pay-time{font-size:12px;color:#94a3b8;}
 .status-chip{font-size:11px;font-weight:600;padding:5px 10px;border-radius:20px;letter-spacing:0.2px;}
 .chip-paid{background:#ECFDF5;color:#059669;}
-.chip-scheduled{background:#FFFBEB;color:#D97706;}
+.chip-slate{background:#E6FAF7;color:#0F766E;}
+.chip-scheduled{background:#E6FAF7;color:#0F766E;}
 .chip-pending{background:#FEF3C7;color:#92400E;}
 .mark-paid-btn{font-size:11px;font-weight:600;padding:6px 12px;border-radius:20px;background:#00C9A7;color:#0F1F3D;border:none;cursor:pointer;font-family:inherit;letter-spacing:0.2px;}
 .collection-banner{background:#E6FAF7;border:1.5px solid #00C9A7;border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:12px;margin-bottom:16px;}
@@ -118,6 +126,7 @@ h1.screen-title{font-size:28px;font-weight:700;color:#0f172a;letter-spacing:-0.5
 .activity-row:last-child{border-bottom:none;}
 .activity-row:active{opacity:0.7;}
 .profile-avatar{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#0F1F3D,#00C9A7);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;color:white;margin-bottom:12px;}
+@keyframes spinLoop{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
 </style>
 
 <div class="page-wrap">
@@ -133,19 +142,154 @@ h1.screen-title{font-size:28px;font-weight:700;color:#0f172a;letter-spacing:-0.5
   </div>
 </div>
 
+<!-- SCREEN: LOGIN -->
+<div class="screen active screen-transition" id="screen-login">
+  <div class="screen-content" style="padding:60px 24px 40px;">
+    <!-- Logo block -->
+    <div style="display:flex;flex-direction:column;align-items:center;text-align:center;margin-bottom:32px;">
+      <div style="width:72px;height:72px;background:linear-gradient(135deg,#00C9A7,#0F1F3D);border-radius:22px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;">
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><path d="M18 6l3.5 7 7.5 1.1-5.5 5.3 1.3 7.5L18 23.5l-6.8 3.4 1.3-7.5L7 14.1l7.5-1.1L18 6z" fill="white" opacity="0.95"/></svg>
+      </div>
+      <div style="font-size:28px;font-weight:700;color:#0f172a;letter-spacing:-0.5px;">Settl</div>
+      <div style="font-size:13px;color:#94a3b8;margin-top:4px;">Group payment collection · UAE</div>
+    </div>
+
+    <!-- UAE PASS button -->
+    <button onclick="loginWithUAEPass()" style="display:flex;align-items:center;gap:12px;width:100%;padding:16px;background:#fff;border:1.5px solid #1a1a1a;border-radius:14px;cursor:pointer;font-family:inherit;margin-bottom:20px;">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+        <circle cx="14" cy="14" r="5" stroke="#00C9A7" stroke-width="2" fill="none"/>
+        <path d="M14 5C9.03 5 5 9.03 5 14" stroke="#E11D48" stroke-width="2" stroke-linecap="round"/>
+        <path d="M14 5C18.97 5 23 9.03 23 14" stroke="#0F1F3D" stroke-width="2" stroke-linecap="round"/>
+        <path d="M5 14c0 4.97 4.03 9 9 9" stroke="#10B981" stroke-width="2" stroke-linecap="round"/>
+        <path d="M23 14c0 4.97-4.03 9-9 9" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/>
+        <path d="M10 14c0-2.21 1.79-4 4-4s4 1.79 4 4" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+      </svg>
+      <span style="font-size:16px;font-weight:700;color:#0f172a;">Sign in with UAE PASS</span>
+    </button>
+
+    <!-- Divider -->
+    <div style="display:flex;align-items:center;gap:12px;margin:20px 0;">
+      <div style="flex:1;border-top:1.5px dashed #CBD5E1;"></div>
+      <span style="font-size:13px;color:#CBD5E1;">or</span>
+      <div style="flex:1;border-top:1.5px dashed #CBD5E1;"></div>
+    </div>
+
+    <!-- Username field -->
+    <input type="text" class="form-input" placeholder="Username" id="login-username" style="margin-bottom:12px;" />
+
+    <!-- Password field with toggle -->
+    <div style="position:relative;margin-bottom:16px;">
+      <input type="password" class="form-input" placeholder="Password" id="login-password" style="margin-bottom:0;padding-right:48px;" />
+      <button onclick="togglePasswordVisibility()" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;padding:4px;display:flex;align-items:center;justify-content:center;">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M2 2l16 16" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M6.5 6.5A5 5 0 0110 5c3.5 0 6.5 3 8 5-0.8 1.3-2 2.8-3.5 3.8" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M4 7.5C2.5 8.7 1.2 10 1 10c1.5 2 4.5 5 9 5a8.4 8.4 0 003.5-.8" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Inline error -->
+    <div id="login-error" style="font-size:13px;color:#E11D48;margin-bottom:10px;display:none;text-align:center;"></div>
+
+    <!-- Forgot links -->
+    <div style="display:flex;justify-content:space-between;margin-bottom:20px;">
+      <a href="#" style="font-size:13px;font-weight:500;color:#00C9A7;text-decoration:none;">Forgot username</a>
+      <a href="#" style="font-size:13px;font-weight:500;color:#00C9A7;text-decoration:none;">Forgot password</a>
+    </div>
+
+    <!-- Login button -->
+    <button class="big-btn" onclick="attemptLogin()">Login</button>
+
+    <!-- Create account link -->
+    <button style="display:flex;align-items:center;justify-content:center;width:100%;padding:14px;background:transparent;border:1.5px solid #0F1F3D;border-radius:14px;font-size:14px;font-weight:600;color:#0F1F3D;cursor:pointer;font-family:inherit;margin-top:12px;">Create an account</button>
+
+    <!-- Language selector -->
+    <div style="display:flex;justify-content:center;margin-top:16px;">
+      <span style="font-size:14px;color:#0f172a;background:#F1F5F9;border-radius:12px;padding:12px 24px;cursor:pointer;">English ∨</span>
+    </div>
+  </div>
+
+  <!-- UAE PASS Stage 1: Redesigned to match real UAE PASS app screen -->
+  <div id="uae-stage1" style="display:none;position:absolute;top:0;left:0;right:0;bottom:0;background:#ffffff;border-radius:42px;z-index:500;flex-direction:column;overflow:hidden;">
+
+    <!-- Top bar -->
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:56px 20px 16px;">
+      <div style="font-size:17px;font-weight:700;color:#1a1a1a;">Log in via UAE pass</div>
+      <div onclick="cancelUAEPass()" style="width:32px;height:32px;border-radius:50%;background:#F1F5F9;display:flex;align-items:center;justify-content:center;cursor:pointer;">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 2l10 10M12 2L2 12" stroke="#64748b" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+    </div>
+
+    <!-- Body: UAE PASS logo + card -->
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 24px 40px;">
+
+      <!-- UAE PASS logo mark (fingerprint SVG recreation) -->
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:40px;">
+        <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+          <!-- fingerprint rings -->
+          <circle cx="28" cy="28" r="24" stroke="#CBD5E1" stroke-width="1.5" fill="none"/>
+          <path d="M28 10 C17 10 8 19 8 30" stroke="#E11D48" stroke-width="2" stroke-linecap="round" fill="none"/>
+          <path d="M28 10 C39 10 48 19 48 30" stroke="#0F1F3D" stroke-width="2" stroke-linecap="round" fill="none"/>
+          <path d="M8 30 C8 42 17 50 28 50" stroke="#10B981" stroke-width="2" stroke-linecap="round" fill="none"/>
+          <path d="M48 30 C48 42 39 50 28 50" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" fill="none"/>
+          <circle cx="28" cy="28" r="14" stroke="#CBD5E1" stroke-width="1.5" fill="none"/>
+          <path d="M18 28 C18 22 22 18 28 18 C34 18 38 22 38 28" stroke="#64748b" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+          <circle cx="28" cy="28" r="6" stroke="#00C9A7" stroke-width="2" fill="none"/>
+        </svg>
+        <div>
+          <div style="font-size:11px;color:#94a3b8;text-align:right;margin-bottom:2px;">الهوية الرقمية</div>
+          <div style="font-size:22px;font-weight:800;color:#1a1a1a;letter-spacing:0.5px;">UAE PASS</div>
+        </div>
+      </div>
+
+      <!-- Card -->
+      <div style="background:#fff;border:1px solid #E2E8F0;border-radius:16px;padding:28px 24px;width:100%;text-align:center;">
+        <div style="font-size:15px;font-weight:500;color:#1a1a1a;margin-bottom:10px;">Settl requires that you log in.</div>
+        <div style="font-size:13px;color:#64748b;line-height:1.6;margin-bottom:22px;">This page will reload automatically<br/>once verification is complete.</div>
+
+        <!-- Segmented loading dots -->
+        <div style="display:flex;gap:5px;justify-content:center;margin-bottom:20px;" id="uae-dots-wrap">
+          <div class="uae-dot" style="width:18px;height:18px;border-radius:50%;background:#CBD5E1;transition:background 0.3s;"></div>
+          <div class="uae-dot" style="width:18px;height:18px;border-radius:50%;background:#CBD5E1;transition:background 0.3s;"></div>
+          <div class="uae-dot" style="width:18px;height:18px;border-radius:50%;background:#CBD5E1;transition:background 0.3s;"></div>
+          <div class="uae-dot" style="width:18px;height:18px;border-radius:50%;background:#CBD5E1;transition:background 0.3s;"></div>
+          <div class="uae-dot" style="width:18px;height:18px;border-radius:50%;background:#CBD5E1;transition:background 0.3s;"></div>
+          <div class="uae-dot" style="width:18px;height:18px;border-radius:50%;background:#CBD5E1;transition:background 0.3s;"></div>
+          <div class="uae-dot" style="width:18px;height:18px;border-radius:50%;background:#CBD5E1;transition:background 0.3s;"></div>
+          <div class="uae-dot" style="width:18px;height:18px;border-radius:50%;background:#CBD5E1;transition:background 0.3s;"></div>
+          <div class="uae-dot" style="width:18px;height:18px;border-radius:50%;background:#CBD5E1;transition:background 0.3s;"></div>
+          <div class="uae-dot" style="width:18px;height:18px;border-radius:50%;background:#CBD5E1;transition:background 0.3s;"></div>
+          <div class="uae-dot" style="width:18px;height:18px;border-radius:50%;background:#CBD5E1;transition:background 0.3s;"></div>
+          <div class="uae-dot" style="width:18px;height:18px;border-radius:50%;background:#CBD5E1;transition:background 0.3s;"></div>
+        </div>
+
+        <button onclick="cancelUAEPass()" style="width:100%;padding:14px;background:#fff;border:1.5px solid #E2E8F0;border-radius:12px;font-size:15px;font-weight:500;color:#1a1a1a;cursor:pointer;font-family:inherit;">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- UAE PASS Stage 2: Login page grayed out with spinner -->
+  <div id="uae-stage2" style="display:none;position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(245,246,250,0.85);border-radius:42px;z-index:500;align-items:center;justify-content:center;">
+    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" style="animation:spinLoop 0.9s linear infinite;">
+      <circle cx="24" cy="24" r="20" stroke="#E2E8F0" stroke-width="4" fill="none"/>
+      <path d="M24 4C13.0 4 4 13.0 4 24" stroke="#0F1F3D" stroke-width="4" stroke-linecap="round" fill="none"/>
+    </svg>
+  </div>
+</div>
+
 <!-- SCREEN 1: HOME -->
-<div class="screen active screen-transition" id="screen-home">
+<div class="screen screen-transition" id="screen-home">
   <div class="top-header" style="padding:60px 20px 12px;">
     <div class="greeting-text">Good morning</div>
     <h1 class="screen-title">Your Groups</h1>
   </div>
-  <div class="screen-content">
+  <div class="screen-content" style="padding-bottom:180px;">
     <div class="quick-stat">
       <div class="qs-card"><div class="qs-val" id="qs-collected" style="color:#00C9A7;">AED 0</div><div class="qs-lbl">Collected</div></div>
-      <div class="qs-card"><div class="qs-val" id="qs-pending" style="color:#F59E0B;">AED 0</div><div class="qs-lbl">Pending</div></div>
+      <div class="qs-card"><div class="qs-val" id="qs-pending" style="color:#F97066;">AED 0</div><div class="qs-lbl">Pending</div></div>
       <div class="qs-card"><div class="qs-val" id="qs-active" style="color:#0F1F3D;">0</div><div class="qs-lbl">Active</div></div>
     </div>
-    <div class="section-header" id="home-section-header">Active Events</div>
     <div id="groups-list"></div>
   </div>
   <div class="float-btn-wrap">
@@ -207,7 +351,19 @@ h1.screen-title{font-size:28px;font-weight:700;color:#0f172a;letter-spacing:-0.5
       <div><div class="split-label">Total cost</div><div class="split-amount" id="split-total-display">AED 0</div></div>
       <div style="text-align:right;"><div class="split-label">Per person</div><div class="split-amount" id="split-display">AED 0</div><div class="split-each" id="split-count">0 players</div></div>
     </div>
-    <div class="section-header">Your Group</div>
+
+    <!-- Search-based invite card -->
+    <div class="card" style="margin-bottom:16px;padding:14px 16px;">
+      <div style="font-size:13px;font-weight:600;color:#475569;margin-bottom:4px;">Find on Settl</div>
+      <div style="font-size:12px;color:#94a3b8;margin-bottom:10px;">Search by name or phone number</div>
+      <div style="position:relative;">
+        <input type="text" id="invite-input" class="form-input" placeholder="e.g. Khalid or +971 50..." style="margin-bottom:0;padding-right:40px;" oninput="runDirectorySearch()" />
+        <svg style="position:absolute;right:14px;top:50%;transform:translateY(-50%);pointer-events:none;" width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5" stroke="#94a3b8" stroke-width="1.5"/><path d="M11 11l2.5 2.5" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div id="directory-results" style="margin-top:8px;"></div>
+    </div>
+
+    <div class="section-header">Contacts &amp; Invited</div>
     <div id="participant-list"></div>
     <button class="big-btn" style="margin-top:8px;" onclick="saveParticipantsAndNext()">Enable Automation<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M5 8h6M8 5l3 3-3 3" stroke="#0F1F3D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
   </div>
@@ -373,7 +529,7 @@ h1.screen-title{font-size:28px;font-weight:700;color:#0f172a;letter-spacing:-0.5
 </div>
 
 <!-- WELCOME SPLASH -->
-<div id="welcome-splash" style="position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(160deg,#0F1F3D 0%,#0a1628 60%,#003d30 100%);z-index:998;border-radius:42px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 32px;cursor:pointer;" onclick="dismissWelcome()">
+<div id="welcome-splash" style="display:none;position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(160deg,#0F1F3D 0%,#0a1628 60%,#003d30 100%);z-index:998;border-radius:42px;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 32px;cursor:pointer;" onclick="dismissWelcome()">
   <div style="width:72px;height:72px;background:linear-gradient(135deg,#00C9A7,#0F1F3D);border-radius:22px;display:flex;align-items:center;justify-content:center;margin-bottom:28px;box-shadow:0 8px 32px rgba(0,201,167,0.3);">
     <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><path d="M18 6l3.5 7 7.5 1.1-5.5 5.3 1.3 7.5L18 23.5l-6.8 3.4 1.3-7.5L7 14.1l7.5-1.1L18 6z" fill="white" opacity="0.95"/></svg>
   </div>
@@ -388,6 +544,17 @@ h1.screen-title{font-size:28px;font-weight:700;color:#0f172a;letter-spacing:-0.5
 </div>
 
 <script>
+// ─── Settl User Directory ───────────────────────────────────────────────────
+var SETTL_DIRECTORY = [
+  {id:'khalid',initials:'KA',name:'Khalid Al Mansoori',phone:'+971 50 234 5678',av:'av4'},
+  {id:'nour',initials:'NJ',name:'Nour Jaber',phone:'+971 55 876 5432',av:'av2'},
+  {id:'ravi',initials:'RS',name:'Ravi Sharma',phone:'+971 52 111 9900',av:'av3'},
+  {id:'fatima',initials:'FH',name:'Fatima Al Hashemi',phone:'+971 50 333 7777',av:'av1'},
+  {id:'tom',initials:'TW',name:'Tom Williams',phone:'+971 56 444 2222',av:'av5'},
+  {id:'mariam',initials:'MK',name:'Mariam Khalil',phone:'+971 54 999 1234',av:'av2'},
+  {id:'jose',initials:'JM',name:'José Martínez',phone:'+971 55 678 0011',av:'av3'}
+];
+
 var NAV_ICONS=[
   {id:'home',label:'Home',svg:'<svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="2" y="2" width="8" height="8" rx="2.5" fill="#00C9A7"/><rect x="12" y="2" width="8" height="8" rx="2.5" fill="#00C9A7" opacity="0.3"/><rect x="2" y="12" width="8" height="8" rx="2.5" fill="#00C9A7" opacity="0.3"/><rect x="12" y="12" width="8" height="8" rx="2.5" fill="#00C9A7" opacity="0.3"/></svg>',svgInactive:'<svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="2" y="2" width="8" height="8" rx="2.5" stroke="#94a3b8" stroke-width="1.5" fill="none"/><rect x="12" y="2" width="8" height="8" rx="2.5" stroke="#94a3b8" stroke-width="1.5" fill="none"/><rect x="2" y="12" width="8" height="8" rx="2.5" stroke="#94a3b8" stroke-width="1.5" fill="none"/><rect x="12" y="12" width="8" height="8" rx="2.5" stroke="#94a3b8" stroke-width="1.5" fill="none"/></svg>',screen:'screen-home'},
   {id:'groups',label:'Groups',svg:'<svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="8" cy="8" r="3" fill="#00C9A7"/><path d="M2 18c0-2.8 2.7-5 6-5s6 2.2 6 5" stroke="#00C9A7" stroke-width="1.8" stroke-linecap="round"/><circle cx="16" cy="7" r="2.5" fill="#00C9A7" opacity="0.5"/><path d="M19 17c0-2-1.5-3.5-3.5-3.5" stroke="#00C9A7" stroke-width="1.8" stroke-linecap="round" opacity="0.5"/></svg>',svgInactive:'<svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="8" cy="8" r="3" stroke="#94a3b8" stroke-width="1.8" fill="none"/><path d="M2 18c0-2.8 2.7-5 6-5s6 2.2 6 5" stroke="#94a3b8" stroke-width="1.8" stroke-linecap="round"/><circle cx="16" cy="7" r="2.5" stroke="#94a3b8" stroke-width="1.5" fill="none"/><path d="M19 17c0-2-1.5-3.5-3.5-3.5" stroke="#94a3b8" stroke-width="1.8" stroke-linecap="round"/></svg>',screen:'screen-groups'},
@@ -447,6 +614,7 @@ var ALL_PARTICIPANTS=[
 
 var appState={currentEvent:{name:'',cost:0,date:'',venue:'',autoCollect:true,frequency:''},selectedParticipants:[],groups:[],totalCollected:0,totalPending:0};
 var selectedSet=new Set(['sara','ahmed','lena','omar']);
+var invitedParticipants=[];
 var autoOn=true,selectedFreq='Weekly',statusEntryPoint='new',receiptGroupIndex=-1,completionMode='full',completionNextDate='';
 
 function freqDays(f){return f==='Weekly'?7:f==='Fortnightly'?14:30;}
@@ -490,10 +658,14 @@ function goTo(screenId){
 function startNewEvent(){
   appState.currentEvent={name:'',cost:0,date:'',venue:'',autoCollect:true,frequency:''};
   appState.selectedParticipants=[];appState._pendingApprovals=null;appState._pendingPayments=null;
+  invitedParticipants=[];
   selectedSet=new Set(['sara','ahmed','lena','omar']);autoOn=true;
   document.getElementById('ev-name').value='';document.getElementById('ev-cost').value='';
   document.getElementById('ev-date').value='';document.getElementById('ev-venue').value='';
   document.getElementById('ev-date').min=new Date().toISOString().split('T')[0];
+  var invInput=document.getElementById('invite-input');if(invInput){invInput.value='';}
+  var resultsDiv=document.getElementById('directory-results');
+  if(resultsDiv)resultsDiv.innerHTML='';
   clearFieldError('ev-name');clearFieldError('ev-cost');clearFieldError('ev-date');clearFieldError('ev-venue');
   document.getElementById('toggle-track').classList.remove('off');
   document.getElementById('auto-toggle-title').textContent='Auto-collection enabled';
@@ -515,6 +687,87 @@ function getBaseShare(cost,totalPpl){return Math.floor(cost/totalPpl);}
 function getActiveGroupPayments(){if(statusEntryPoint==='existing'&&appState._viewingGroupIndex>=0)return appState.groups[appState._viewingGroupIndex].payments||[];return appState._pendingPayments||[];}
 function getActiveGroupApprovals(){if(statusEntryPoint==='existing'&&appState._viewingGroupIndex>=0)return appState.groups[appState._viewingGroupIndex].approvals||[];return appState._pendingApprovals||[];}
 
+// ─── Directory Search ────────────────────────────────────────────────────────
+function runDirectorySearch() {
+  var query = document.getElementById('invite-input').value.trim().toLowerCase();
+  var resultsDiv = document.getElementById('directory-results');
+  if (!query) { resultsDiv.innerHTML = ''; return; }
+
+  var alreadyAdded = ALL_PARTICIPANTS.map(function(p){return p.id;})
+    .concat(invitedParticipants.map(function(p){return p.id;}));
+
+  var matches = SETTL_DIRECTORY.filter(function(u) {
+    return !alreadyAdded.includes(u.id)
+      && (u.name.toLowerCase().includes(query) || u.phone.includes(query));
+  });
+
+  if (matches.length === 0) {
+    resultsDiv.innerHTML = '<div style="padding:12px 0;">'
+      + '<div style="font-size:13px;color:#64748b;margin-bottom:10px;">No Settl account found for <strong style="color:#0f172a;">"' + esc(document.getElementById('invite-input').value.trim()) + '"</strong></div>'
+      + '<button onclick="addAsExternalInvite()" style="display:flex;align-items:center;gap:8px;width:100%;padding:12px 14px;background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:14px;cursor:pointer;font-family:inherit;">'
+      + '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" fill="#10B981" opacity="0.15"/><path d="M5 8h6M8 5v6" stroke="#059669" stroke-width="1.5" stroke-linecap="round"/></svg>'
+      + '<div style="text-align:left;"><div style="font-size:13px;font-weight:600;color:#059669;">Send Settl invite link</div>'
+      + '<div style="font-size:11px;color:#64748b;">They\'ll get a link to join Settl and approve payment</div></div>'
+      + '</button></div>';
+    return;
+  }
+
+  resultsDiv.innerHTML = matches.map(function(u) {
+    return '<div onclick="addDirectoryUser(\'' + u.id + '\')" style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #F1F5F9;cursor:pointer;">'
+      + '<div style="display:flex;align-items:center;gap:10px;">'
+      + '<div class="avatar ' + u.av + '" style="flex-shrink:0;">' + u.initials + '</div>'
+      + '<div><div style="font-size:14px;font-weight:500;color:#0f172a;">' + esc(u.name) + '</div>'
+      + '<div style="font-size:11px;color:#94a3b8;">' + u.phone + ' · On Settl</div></div></div>'
+      + '<span style="font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;background:#E6FAF7;color:#00A389;white-space:nowrap;">Add</span>'
+      + '</div>';
+  }).join('');
+}
+
+function addDirectoryUser(userId) {
+  var user = SETTL_DIRECTORY.find(function(u){ return u.id === userId; });
+  if (!user) return;
+  var participant = {
+    id: user.id,
+    initials: user.initials,
+    name: user.name,
+    role: 'Settl user',
+    av: user.av,
+    invited: true
+  };
+  invitedParticipants.push(participant);
+  selectedSet.add(user.id);
+  document.getElementById('invite-input').value = '';
+  document.getElementById('directory-results').innerHTML = '';
+  renderParticipantList();
+  updateSplitDisplay();
+}
+
+function addAsExternalInvite() {
+  var name = document.getElementById('invite-input').value.trim();
+  if (!name) return;
+  var parts = name.split(' ').filter(Boolean);
+  var initials = parts.length >= 2
+    ? (parts[0][0] + parts[parts.length-1][0]).toUpperCase()
+    : name.slice(0, 2).toUpperCase();
+  var avOptions = ['av1','av2','av3','av4','av5'];
+  var av = avOptions[invitedParticipants.length % avOptions.length];
+  var id = 'external_' + name.toLowerCase().replace(/\s+/g,'_') + '_' + Date.now();
+  var participant = {
+    id: id,
+    initials: initials,
+    name: name,
+    role: 'Invite pending',
+    av: av,
+    invited: true
+  };
+  invitedParticipants.push(participant);
+  selectedSet.add(id);
+  document.getElementById('invite-input').value = '';
+  document.getElementById('directory-results').innerHTML = '';
+  renderParticipantList();
+  updateSplitDisplay();
+}
+
 function renderGroupCard(g,i){
   var ps=g.participants,totalPpl=ps.length+1,bs=getBaseShare(g.cost,totalPpl);
   var badgeHtml,pct,progressLeft,progressRight,barClass;
@@ -522,7 +775,7 @@ function renderGroupCard(g,i){
   else if(g.autoCollect&&!g.cancelled){
     var ac=g.approvals?g.approvals.filter(function(a){return a.approved;}).length:0;
     badgeHtml=ac===ps.length?'<span class="badge badge-teal">Active</span>':'<span class="badge badge-amber">Awaiting approvals</span>';
-    pct=ps.length>0?Math.round((ac/ps.length)*100):0;progressLeft=ac+' of '+ps.length+' approved';progressRight=ac===ps.length?'Ready to collect':(ps.length-ac)+' awaiting';barClass='fill-amber';
+    pct=ps.length>0?Math.round((ac/ps.length)*100):0;progressLeft=ac+' of '+ps.length+' approved';progressRight=ac===ps.length?'Ready to collect':(ps.length-ac)+' awaiting';barClass=(ac===ps.length)?'fill-teal':'fill-amber';
   }else{
     var pc=g.payments?g.payments.filter(function(p){return p.paid;}).length:0;
     pct=ps.length>0?Math.round((pc/ps.length)*100):0;badgeHtml='<span class="badge badge-amber">In Progress</span>';progressLeft=pc+' of '+ps.length+' paid';progressRight='AED '+(ps.length-pc)*bs+' remaining';barClass='fill-teal';
@@ -531,13 +784,13 @@ function renderGroupCard(g,i){
   var infoRow='';
   if(!g.completed&&!g.cancelled){
     if(g.autoCollect&&g.frequency&&g.date){var nd=new Date(g.date+'T12:00:00');nd.setDate(nd.getDate()+freqDays(g.frequency));infoRow='<div style="margin-top:6px;font-size:11px;color:#00C9A7;font-weight:500;">↻ '+esc(g.frequency)+' · Auto-collect · Next: '+formatDateShort(nd)+'</div>';}
-    else if(g.autoCollect&&!g.frequency){infoRow='<div style="margin-top:6px;font-size:11px;color:#00C9A7;font-weight:500;">⚡ Auto-collect</div>';}
-    else if(!g.autoCollect){infoRow='<div style="margin-top:6px;font-size:11px;color:#94a3b8;">✎ Manual collection</div>';}
+    else if(g.autoCollect&&!g.frequency){infoRow='<div style="margin-top:6px;font-size:11px;color:#00C9A7;font-weight:500;">Auto-collect</div>';}
+    else if(!g.autoCollect){infoRow='<div style="margin-top:6px;font-size:11px;color:#94a3b8;">Manual collection</div>';}
   }
   var venueStr=(dateStr&&g.venue)?dateStr+' · '+esc(g.venue):(dateStr||(g.venue?esc(g.venue):''));
   var titleBlock='<div style="font-size:15px;font-weight:600;color:#0f172a;line-height:1.3;">'+esc(g.name)+'</div>'+(venueStr?'<div style="font-size:12px;color:#94a3b8;margin-top:2px;">'+venueStr+'</div>':'');
   var costDisplay=g.completed?'AED '+g.cost:(g.autoCollect?'AED 0':'AED '+(g.payments?g.payments.filter(function(p){return p.paid;}).length*bs:0));
-  return '<div class="group-card" onclick="loadGroupAndView('+i+')"><div class="card-header"><div>'+titleBlock+'</div>'+badgeHtml+'</div><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><span style="font-size:13px;color:#64748b;">'+totalPpl+' participants</span><span style="font-size:13px;color:#64748b;"><span style="font-weight:600;color:#0f172a;">'+costDisplay+'</span> / AED '+g.cost+'</span></div><div class="progress-bar-wrap"><div class="progress-bar-fill '+barClass+'" style="width:'+pct+'%;"></div></div><div class="progress-labels"><span class="progress-label">'+progressLeft+'</span><span class="progress-label">'+progressRight+'</span></div>'+infoRow+'</div>';
+  return '<div class="group-card" onclick="loadGroupAndView('+i+')"><div class="card-header" style="gap:8px;align-items:flex-start;"><div style="flex:1;min-width:0;">'+titleBlock+'</div><div style="flex-shrink:0;white-space:nowrap;">'+badgeHtml+'</div></div><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><span style="font-size:13px;color:#64748b;">'+totalPpl+' participants</span><span style="font-size:13px;color:#64748b;"><span style="font-weight:600;color:#0f172a;">'+costDisplay+'</span> / AED '+g.cost+'</span></div><div class="progress-bar-wrap"><div class="progress-bar-fill '+barClass+'" style="width:'+pct+'%;"></div></div><div class="progress-labels"><span class="progress-label">'+progressLeft+'</span><span class="progress-label">'+progressRight+'</span></div>'+infoRow+'</div>';
 }
 
 function renderHome(){
@@ -546,11 +799,40 @@ function renderHome(){
   document.getElementById('qs-pending').textContent='AED '+appState.totalPending;
   var active=appState.groups.filter(function(g){return !g.completed&&!g.cancelled;});
   document.getElementById('qs-active').textContent=active.length;
-  var hasRecurring=active.some(function(g){return g.frequency;});
-  document.getElementById('home-section-header').textContent=hasRecurring?'Active & Recurring':'Active Events';
-  var list=document.getElementById('groups-list');
-  if(active.length===0){list.innerHTML=emptyStateHTML();return;}
-  list.innerHTML=active.map(function(g){return renderGroupCard(g,appState.groups.indexOf(g));}).join('');
+
+  var today=new Date();today.setHours(0,0,0,0);
+  var weekEnd=new Date(today);weekEnd.setDate(weekEnd.getDate()+7);
+  var lastWeekStart=new Date(today);lastWeekStart.setDate(lastWeekStart.getDate()-7);
+
+  var thisWeek=appState.groups.filter(function(g){
+    if(g.completed||g.cancelled)return false;
+    var d=new Date(g.date+'T12:00:00');
+    return d>=today&&d<weekEnd;
+  });
+  var lastWeekend=appState.groups.filter(function(g){
+    if(!g.completed||g.cancelled)return false;
+    var d=new Date(g.date+'T12:00:00');
+    return d>=lastWeekStart&&d<today;
+  });
+  var otherActive=appState.groups.filter(function(g){
+    if(g.completed||g.cancelled)return false;
+    var d=new Date(g.date+'T12:00:00');
+    return !(d>=today&&d<weekEnd);
+  });
+
+  var html='';
+  if(thisWeek.length){
+    html+='<div class="section-header">This Week</div>';
+    html+=thisWeek.map(function(g){return renderGroupCard(g,appState.groups.indexOf(g));}).join('');
+  }
+  if(lastWeekend.length){
+    html+='<div class="section-header" style="margin-top:8px;">Last Weekend</div>';
+    html+=lastWeekend.map(function(g){return renderGroupCard(g,appState.groups.indexOf(g));}).join('');
+  }
+  if(!thisWeek.length&&!lastWeekend.length&&!otherActive.length){
+    html+=emptyStateHTML();
+  }
+  document.getElementById('groups-list').innerHTML=html;
 }
 
 function renderGroupsTab(){
@@ -566,10 +848,10 @@ function renderActivity(){
   var c=document.getElementById('activity-content');if(!appState.groups.length){c.innerHTML=emptyStateHTML();return;}
   var rows=appState.groups.slice().reverse().map(function(g){
     var origIdx=appState.groups.indexOf(g);
-    var chip=g.cancelled?'<span class="status-chip" style="background:#FFF1F2;color:#E11D48;">Cancelled</span>':g.completed?'<span class="status-chip chip-paid">Complete</span>':g.autoCollect?'<span class="status-chip" style="background:#FFFBEB;color:#D97706;">Awaiting</span>':'<span class="status-chip chip-scheduled">In Progress</span>';
+    var chip=g.cancelled?'<span class="status-chip" style="background:#FFF1F2;color:#E11D48;">Cancelled</span>':g.completed?'<span class="status-chip chip-paid">Complete</span>':g.autoCollect?'<span class="status-chip" style="background:#FFF1F0;color:#E05A50;">Awaiting</span>':'<span class="status-chip chip-scheduled">In Progress</span>';
     var dateStr=g.date?formatDateShort(g.date):'No date';
     var sessLine=g.frequency?(g.sessionCount>0?'<div style="font-size:11px;color:#00C9A7;margin-top:2px;">'+g.sessionCount+' sessions completed</div>':'<div style="font-size:11px;color:#00C9A7;margin-top:2px;">Session 1</div>'):'';
-    var methodLine=g.autoCollect?'<div style="font-size:11px;color:#00C9A7;margin-top:2px;">⚡ Auto-collect'+(g.frequency?' · '+g.frequency:'')+'</div>':'<div style="font-size:11px;color:#94a3b8;margin-top:2px;">✎ Manual collection</div>';
+    var methodLine=g.autoCollect?'<div style="font-size:11px;color:#00C9A7;margin-top:2px;">Auto-collect'+(g.frequency?' · '+g.frequency:'')+'</div>':'<div style="font-size:11px;color:#94a3b8;margin-top:2px;">Manual collection</div>';
     return '<div class="activity-row" onclick="openReceipt('+origIdx+')"><div><div style="font-size:15px;font-weight:600;color:#0f172a;">'+esc(g.name)+'</div><div style="font-size:12px;color:#94a3b8;margin-top:2px;">'+dateStr+' · AED '+g.cost+'</div>'+sessLine+methodLine+'</div><div style="display:flex;align-items:center;gap:8px;">'+chip+'<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 3l4 4-4 4" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>';
   }).join('');
   c.innerHTML='<div class="card" style="padding:4px 18px;">'+rows+'</div>';
@@ -577,7 +859,7 @@ function renderActivity(){
 
 function openReceipt(i){
   receiptGroupIndex=i;var g=appState.groups[i];var totalPpl=g.participants.length+1,bs=getBaseShare(g.cost,totalPpl),rem=g.cost-bs*totalPpl;
-  var dateStr=g.date?formatDateShort(g.date):'No date';var methodStr=g.frequency&&g.autoCollect?('↻ '+esc(g.frequency)+' · Auto-collect'):'Manual collection';
+  var dateStr=g.date?formatDateShort(g.date):'No date';var methodStr=g.autoCollect?(g.frequency?'↻ '+esc(g.frequency)+' · Auto-collect':'One-time · Auto-collect'):'Manual collection';
   var isManualInProgress=!g.completed&&!g.autoCollect&&!g.cancelled;
   var rows=g.participants.map(function(p){
     var chip;
@@ -593,11 +875,32 @@ function openReceipt(i){
     html+='<div style="background:linear-gradient(135deg,#0F1F3D,#00C9A7);border-radius:16px;padding:18px;margin-bottom:12px;"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;"><div>'
       +'<div style="font-size:17px;font-weight:700;color:white;">'+esc(g.name)+'</div>'
       +'<div style="font-size:12px;color:rgba(255,255,255,0.75);margin-top:3px;">'+dateStr+(g.venue?' · '+esc(g.venue):'')+'</div>'
-      +'<div style="margin-top:8px;"><span style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;background:rgba(255,255,255,0.15);color:white;">'+(g.autoCollect?'⚡ Auto-collect':'✎ Manual')+'</span></div>'
+      +'<div style="margin-top:8px;"><span style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;background:rgba(255,255,255,0.15);color:white;">'+(g.autoCollect?'Auto-collect':'Manual')+'</span></div>'
       +'</div>'+bh+'</div></div>';
   }
   html+='<div class="card"><div style="font-size:12px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:12px;">Cost Summary</div><div class="stat-row"><span class="stat-label">Total cost</span><span class="stat-value">AED '+g.cost+'</span></div><div class="stat-row" style="border-top:1px solid #F1F5F9;"><span class="stat-label">Per person</span><span class="stat-value">AED '+bs+(rem?'+':'')+' </span></div><div class="stat-row" style="border-top:1px solid #F1F5F9;"><span class="stat-label">Participants</span><span class="stat-value">'+totalPpl+' players</span></div><div class="stat-row" style="border-top:1px solid #F1F5F9;"><span class="stat-label">Collection</span><span class="stat-value" style="font-size:12px;color:#00A389;">'+methodStr+'</span></div></div>';
   html+='<div class="card" style="padding:4px 18px;">'+rows+footer+'</div>';
+
+  if(g.frequency&&g.sessionCount>0){
+    html+='<div class="section-header" style="margin-top:4px;">Session History</div>';
+    html+='<div class="card" style="padding:4px 18px;">';
+    var sessionDates=[];
+    var refDate=new Date(g.date+'T12:00:00');
+    for(var s=0;s<g.sessionCount;s++){
+      refDate=new Date(refDate.getTime());
+      refDate.setDate(refDate.getDate()-freqDays(g.frequency));
+      sessionDates.push(new Date(refDate.getTime()));
+    }
+    sessionDates.reverse();
+    for(var si=0;si<sessionDates.length;si++){
+      var sNum=si+1;
+      var sDate=formatDateShort(sessionDates[si]);
+      var isLast=(si===sessionDates.length-1);
+      html+='<div class="payment-row" style="'+(isLast?'border-bottom:none;':'')+'"><div class="pay-left"><div style="width:38px;height:38px;border-radius:50%;background:#E6FAF7;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#00A389;flex-shrink:0;">S'+sNum+'</div><div><div class="pay-amount">Session '+sNum+'</div><div class="pay-time">'+sDate+' · AED '+g.cost+' collected</div></div></div><span class="status-chip chip-paid">Collected</span></div>';
+    }
+    html+='</div>';
+  }
+
   document.getElementById('receipt-content').innerHTML=html;goTo('screen-receipt');
 }
 
@@ -608,9 +911,9 @@ function renderParticipantView(){
   var dateStr=ev.date?formatDateLong(new Date(ev.date+'T12:00:00')):'—';
   var freqStr=ev.frequency?'Every '+ev.frequency.toLowerCase()+' · Starting '+dateStr:'One-time · '+dateStr;
   var html='<div style="background:linear-gradient(135deg,#0F1F3D,#00C9A7);border-radius:20px;padding:24px 20px;margin-bottom:16px;"><div style="font-size:13px;color:rgba(255,255,255,0.7);margin-bottom:6px;">'+esc(ev.name||'Event')+'</div><div style="font-size:22px;font-weight:700;color:white;line-height:1.2;">Wants to collect<br/>AED '+bs+' from you</div><div style="font-size:13px;color:rgba(255,255,255,0.75);margin-top:8px;">'+freqStr+'</div></div>';
-  html+='<div class="card"><div style="font-size:13px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:12px;">By approving you agree to</div>';
-  ['You\'ll never miss a payment','Cancel anytime — no lock-in','No surprises — fixed AED '+bs+' each session'].forEach(function(txt){html+='<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #F1F5F9;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" fill="#E6FAF7"/><path d="M5 8l2 2 4-4" stroke="#00A389" stroke-width="1.5" stroke-linecap="round"/></svg><span style="font-size:14px;color:#334155;">'+txt+'</span></div>';});
-  html+='</div><button class="big-btn" onclick="simulateParticipantApprove()" style="margin-bottom:10px;">Approve auto-debit</button>';
+  html+='<div class="card"><div style="font-size:13px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:12px;">Open Banking Consent — By approving you confirm</div>';
+  ['I authorise Settl to pull AED '+bs+' from my account after each session via open banking','This acceptance is my legal consent for automated payment collection','Payments are collected automatically — no further action required from me','I can revoke this consent at any time by contacting the organiser','No surprises — fixed AED '+bs+' per session, '+(ev.frequency?ev.frequency.toLowerCase():'one-time')].forEach(function(txt){html+='<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #F1F5F9;"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" fill="#E6FAF7"/><path d="M5 8l2 2 4-4" stroke="#00A389" stroke-width="1.5" stroke-linecap="round"/></svg><span style="font-size:14px;color:#334155;">'+txt+'</span></div>';});
+  html+='</div><button class="big-btn" onclick="simulateParticipantApprove()" style="margin-bottom:10px;">I consent — Approve auto-debit</button>';
   html+='<button class="big-btn-outline" style="color:#E11D48;border-color:#E11D48;" onclick="goTo(\'screen-status\')">Decline</button>';
   document.getElementById('participant-view-content').innerHTML=html;
 }
@@ -624,7 +927,26 @@ function simulateParticipantApprove(){
 function renderProfile(){
   recalcTotals();var n=appState.groups.length;
   var avgSize=n>0?Math.round(appState.groups.reduce(function(s,g){return s+g.participants.length+1;},0)/n):0;
-  var html='<div class="card" style="display:flex;flex-direction:column;align-items:center;text-align:center;padding:24px 18px 20px;"><div class="profile-avatar">YO</div><div style="font-size:18px;font-weight:700;color:#0f172a;">Organiser</div><div style="font-size:13px;color:#94a3b8;margin-top:4px;">Group Admin</div></div>';
+  var outstanding = appState.groups.filter(function(g){ return !g.completed && !g.cancelled; })
+    .reduce(function(sum, g){
+      var bs = getBaseShare(g.cost, g.participants.length + 1);
+      var unpaid = g.payments ? g.payments.filter(function(p){ return !p.paid; }).length : 0;
+      return sum + unpaid * bs;
+    }, 0);
+  var html = '<div style="background:linear-gradient(135deg,#0F1F3D,#00C9A7);border-radius:20px;padding:20px 18px;margin-bottom:12px;">'
+    + '<div style="font-size:12px;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:14px;">Organiser Dashboard</div>'
+    + '<div style="display:flex;justify-content:space-between;gap:10px;">'
+    + '<div style="flex:1;background:rgba(255,255,255,0.12);border-radius:14px;padding:14px;text-align:center;">'
+    + '<div style="font-size:22px;font-weight:700;color:white;">' + appState.groups.filter(function(g){return !g.cancelled;}).length + '</div>'
+    + '<div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:4px;">Total Games</div></div>'
+    + '<div style="flex:1;background:rgba(255,255,255,0.12);border-radius:14px;padding:14px;text-align:center;">'
+    + '<div style="font-size:22px;font-weight:700;color:white;">AED ' + appState.totalCollected + '</div>'
+    + '<div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:4px;">Total Collected</div></div>'
+    + '<div style="flex:1;background:rgba(255,255,255,0.12);border-radius:14px;padding:14px;text-align:center;">'
+    + '<div style="font-size:22px;font-weight:700;color:#FFD166;">AED ' + outstanding + '</div>'
+    + '<div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:4px;">Outstanding</div></div>'
+    + '</div></div>';
+  html+='<div class="card" style="display:flex;flex-direction:column;align-items:center;text-align:center;padding:24px 18px 20px;"><div class="profile-avatar">YO</div><div style="font-size:18px;font-weight:700;color:#0f172a;">Organiser</div><div style="font-size:13px;color:#94a3b8;margin-top:4px;">Group Admin</div></div>';
   html+='<div class="card"><div style="font-size:13px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:12px;">Your Stats</div><div class="stat-row"><span class="stat-label">Events organised</span><span class="stat-value">'+n+'</span></div><div class="stat-row" style="border-top:1px solid #F1F5F9;"><span class="stat-label">Total collected</span><span class="stat-value green">AED '+appState.totalCollected+'</span></div><div class="stat-row" style="border-top:1px solid #F1F5F9;"><span class="stat-label">Avg group size</span><span class="stat-value">'+(avgSize||'—')+(avgSize?' players':'')+'</span></div></div>';
   html+='<div class="card" style="border:1.5px solid #00C9A7;"><div style="display:flex;justify-content:space-between;align-items:center;"><div><div style="font-size:15px;font-weight:700;color:#0f172a;">Settl Pro</div><div style="font-size:13px;color:#64748b;margin-top:2px;">AED 19 / month</div></div><span class="badge badge-green">Active</span></div></div>';
   document.getElementById('profile-content').innerHTML=html;
@@ -658,22 +980,40 @@ function saveEventAndNext(){
 }
 
 function renderParticipantList(){
-  var html=ALL_PARTICIPANTS.map(function(p){var sel=selectedSet.has(p.id);return '<div class="participant-row'+(sel?' selected':'')+'" id="pr-'+p.id+'" onclick="toggleP(\''+p.id+'\')"><div class="participant-left"><div class="avatar '+p.av+'">'+p.initials+'</div><div><div class="participant-name">'+p.name+'</div><div class="participant-role">'+p.role+'</div></div></div><div class="check-circle'+(sel?' checked':'')+'" id="chk-'+p.id+'">'+(sel?'<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 6l2.5 2.5 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>':'')+'</div></div>';}).join('');
-  document.getElementById('participant-list').innerHTML=html;updateSplitDisplay();
+  var allParticipants=ALL_PARTICIPANTS.concat(invitedParticipants);
+  var html=allParticipants.map(function(p){
+    var sel=selectedSet.has(p.id);
+    var rightEl;
+    if(p.invited){
+      var isExternal = p.role === 'Invite pending';
+      rightEl = sel
+        ? '<span style="font-size:10px;font-weight:600;padding:4px 9px;border-radius:20px;'
+          + (isExternal ? 'background:#FFF1F0;color:#E05A50;' : 'background:#E6FAF7;color:#00A389;')
+          + 'letter-spacing:0.2px;white-space:nowrap;">'
+          + (isExternal ? 'Invite sent' : 'Added')
+          + '</span>'
+        : '<div class="check-circle" id="chk-'+p.id+'"></div>';
+    }else{
+      rightEl='<div class="check-circle'+(sel?' checked':'')+'" id="chk-'+p.id+'">'
+        +(sel?'<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 6l2.5 2.5 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>':'')
+        +'</div>';
+    }
+    return '<div class="participant-row'+(sel?' selected':'')+'" id="pr-'+p.id+'" onclick="toggleP(\''+p.id+'\')">'+'<div class="participant-left"><div class="avatar '+p.av+'">'+p.initials+'</div><div><div class="participant-name">'+esc(p.name)+'</div><div class="participant-role">'+esc(p.role)+'</div></div></div>'+rightEl+'</div>';
+  }).join('');
+  document.getElementById('participant-list').innerHTML=html;
+  updateSplitDisplay();
 }
 
 function toggleP(id){
   if(selectedSet.has(id))selectedSet.delete(id);else selectedSet.add(id);
-  var row=document.getElementById('pr-'+id),chk=document.getElementById('chk-'+id),sel=selectedSet.has(id);
-  if(sel){row.classList.add('selected');chk.classList.add('checked');chk.innerHTML='<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 6l2.5 2.5 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>';}
-  else{row.classList.remove('selected');chk.classList.remove('checked');chk.innerHTML='';}
-  updateSplitDisplay();
+  renderParticipantList();
 }
 
 function updateSplitDisplay(){var cost=appState.currentEvent.cost||0,count=selectedSet.size+1,bs=count>0?getBaseShare(cost,count):0;document.getElementById('split-total-display').textContent='AED '+cost;document.getElementById('split-display').textContent='AED '+bs;document.getElementById('split-count').textContent=count+' players';}
 
 function saveParticipantsAndNext(){
-  appState.selectedParticipants=ALL_PARTICIPANTS.filter(function(p){return selectedSet.has(p.id);});
+  var allParticipants=ALL_PARTICIPANTS.concat(invitedParticipants);
+  appState.selectedParticipants=allParticipants.filter(function(p){return selectedSet.has(p.id);});
   if(!appState.selectedParticipants.length){
     document.getElementById('modal-confirm-btn').style.background='#00C9A7';
     document.getElementById('modal-confirm-btn').style.color='#0F1F3D';
@@ -718,17 +1058,53 @@ function renderStatusScreen(){
   if(ev.autoCollect){
     var approvals=getActiveGroupApprovals(),approvedCount=approvals.filter(function(a){return a.approved;}).length;
     pct=ps.length>0?Math.round((approvedCount/ps.length)*100):0;
-    document.getElementById('status-coll-dot').style.background='#F59E0B';document.getElementById('status-collection-banner').style.background='#FFFBEB';document.getElementById('status-collection-banner').style.borderColor='#FDE68A';
-    document.getElementById('status-banner-label').textContent='Awaiting member approvals';document.getElementById('status-banner-label').style.color='#D97706';
-    document.getElementById('status-coll-amounts').textContent=approvedCount+' of '+ps.length+' approved';document.getElementById('status-coll-amounts').style.color='#D97706';
-    document.getElementById('status-pct').textContent=pct+'%';document.getElementById('status-progress-bar').style.width=pct+'%';document.getElementById('status-progress-bar').className='progress-bar-fill fill-amber';
-    document.getElementById('status-collected-label').textContent=approvedCount+' of '+ps.length+' approved';document.getElementById('status-collected-label').style.color='#D97706';
-    document.getElementById('status-pending-label').textContent=(ps.length-approvedCount)+' awaiting';document.getElementById('status-section-label').textContent='Approval Status';
-    rows=ps.map(function(p){var entry=approvals.find(function(a){return a.participantId===p.id;});var isApproved=entry&&entry.approved;var chipHtml=isApproved?'<span class="status-chip badge-teal" style="background:#E6FAF7;color:#00A389;">Approved</span>':'<button class="mark-paid-btn" style="background:#FFFBEB;color:#D97706;border:1px solid #FDE68A;" onclick="markApproved(\''+p.id+'\')">Tap to approve</button>';var subText=isApproved?'AED '+bs+' · Auto-debit approved':'AED '+bs+' · Awaiting approval';return '<div class="payment-row"><div class="pay-left"><div class="avatar '+p.av+'">'+p.initials+'</div><div><div class="pay-amount">'+esc(p.name)+'</div><div class="pay-time">'+subText+'</div></div></div>'+chipHtml+'</div>';}).join('');
-    rows+='<div onclick="goTo(\'screen-participant-view\')" style="text-align:center;font-size:12px;color:#00A389;cursor:pointer;padding:10px 0 4px;">Preview what members see →</div>';
-    var btns='<button class="big-btn" onclick="completeSessionDemo()">Complete Session <span style="font-size:11px;opacity:0.6;">(demo)</span></button>';
-    if(statusEntryPoint==='existing'){var cancelLabel=ev.frequency?'Cancel recurring series':'Cancel event';btns+='<button class="big-btn-outline" style="color:#E11D48;border-color:#E11D48;margin-top:10px;" onclick="cancelEvent()">'+cancelLabel+'</button>';}
-    actionDiv.innerHTML=btns;
+    var allApproved=(ps.length>0&&approvedCount===ps.length);
+
+    if(allApproved){
+      document.getElementById('status-coll-dot').style.background='#00C9A7';
+      document.getElementById('status-collection-banner').style.background='#E6FAF7';
+      document.getElementById('status-collection-banner').style.borderColor='#00C9A7';
+      document.getElementById('status-banner-label').textContent='Collection Active';
+      document.getElementById('status-banner-label').style.color='#00A389';
+      document.getElementById('status-coll-amounts').textContent='Settl is collecting automatically';
+      document.getElementById('status-coll-amounts').style.color='#00A389';
+      document.getElementById('status-pct').textContent='';
+      document.getElementById('status-progress-bar').style.width='100%';
+      document.getElementById('status-progress-bar').className='progress-bar-fill fill-teal';
+      document.getElementById('status-collected-label').textContent='All '+ps.length+' members approved';
+      document.getElementById('status-collected-label').style.color='#10B981';
+      document.getElementById('status-pending-label').textContent='AED '+ev.cost+' in collection';
+      document.getElementById('status-pending-label').style.color='#00A389';
+      document.getElementById('status-section-label').textContent='Member Status';
+      rows=ps.map(function(p){
+        return '<div class="payment-row"><div class="pay-left"><div class="avatar '+p.av+'">'+p.initials+'</div><div><div class="pay-amount">'+esc(p.name)+'</div><div class="pay-time">AED '+bs+' · Auto-debit approved</div></div></div><span class="status-chip" style="background:#E6FAF7;color:#00A389;">Approved</span></div>';
+      }).join('');
+      rows+='<div onclick="goTo(\'screen-participant-view\')" style="text-align:center;font-size:12px;color:#00A389;cursor:pointer;padding:10px 0 4px;">Preview what members see →</div>';
+      var btns='<button class="big-btn" onclick="confirmCompleteSession()">Complete Session <span style="font-size:11px;opacity:0.6;">(demo)</span></button>';
+      if(statusEntryPoint==='existing'){var cancelLabel=ev.frequency?'Cancel recurring series':'Cancel event';btns+='<button class="big-btn-outline" style="color:#E11D48;border-color:#E11D48;margin-top:10px;" onclick="cancelEvent()">'+cancelLabel+'</button>';}
+      actionDiv.innerHTML=btns;
+    } else {
+      document.getElementById('status-coll-dot').style.background='#F97066';
+      document.getElementById('status-collection-banner').style.background='#FFF1F0';
+      document.getElementById('status-collection-banner').style.borderColor='#FBCAC7';
+      document.getElementById('status-banner-label').textContent='Awaiting member approvals';
+      document.getElementById('status-banner-label').style.color='#E05A50';
+      document.getElementById('status-coll-amounts').textContent=approvedCount+' of '+ps.length+' approved';
+      document.getElementById('status-coll-amounts').style.color='#E05A50';
+      document.getElementById('status-pct').textContent=pct+'%';
+      document.getElementById('status-progress-bar').style.width=pct+'%';
+      document.getElementById('status-progress-bar').className='progress-bar-fill fill-teal';
+      document.getElementById('status-collected-label').textContent=approvedCount+' of '+ps.length+' approved';
+      document.getElementById('status-collected-label').style.color='#E05A50';
+      document.getElementById('status-pending-label').textContent=(ps.length-approvedCount)+' awaiting';
+      document.getElementById('status-pending-label').style.color='#64748b';
+      document.getElementById('status-section-label').textContent='Approval Status';
+      rows=ps.map(function(p){var entry=approvals.find(function(a){return a.participantId===p.id;});var isApproved=entry&&entry.approved;var chipHtml=isApproved?'<span class="status-chip" style="background:#E6FAF7;color:#00A389;">Approved</span>':'<button class="mark-paid-btn" style="background:#FFF1F0;color:#E05A50;border:1px solid #FBCAC7;" onclick="markApproved(\''+p.id+'\')">Tap to approve</button>';var subText=isApproved?'AED '+bs+' · Auto-debit approved':'AED '+bs+' · Awaiting approval';return '<div class="payment-row"><div class="pay-left"><div class="avatar '+p.av+'">'+p.initials+'</div><div><div class="pay-amount">'+esc(p.name)+'</div><div class="pay-time">'+subText+'</div></div></div>'+chipHtml+'</div>';}).join('');
+      rows+='<div onclick="goTo(\'screen-participant-view\')" style="text-align:center;font-size:12px;color:#00A389;cursor:pointer;padding:10px 0 4px;">Preview what members see →</div>';
+      var btns='<button class="big-btn" onclick="confirmCompleteSession()">Complete Session <span style="font-size:11px;opacity:0.6;">(demo)</span></button>';
+      if(statusEntryPoint==='existing'){var cancelLabel=ev.frequency?'Cancel recurring series':'Cancel event';btns+='<button class="big-btn-outline" style="color:#E11D48;border-color:#E11D48;margin-top:10px;" onclick="cancelEvent()">'+cancelLabel+'</button>';}
+      actionDiv.innerHTML=btns;
+    }
   }else{
     var payments=getActiveGroupPayments(),paidCount=payments.filter(function(p){return p.paid;}).length,allPaid=payments.length>0&&payments.every(function(p){return p.paid;});
     pct=ps.length>0?Math.round((paidCount/ps.length)*100):0;var collected=paidCount*bs,pending=(ps.length-paidCount)*bs;
@@ -745,6 +1121,21 @@ function renderStatusScreen(){
     actionDiv.innerHTML=btns;
   }
   document.getElementById('status-payments-list').innerHTML=rows;
+}
+
+function confirmCompleteSession(){
+  document.getElementById('modal-confirm-btn').style.background='#00C9A7';
+  document.getElementById('modal-confirm-btn').style.color='#0F1F3D';
+  showModal(
+    'Complete this session?',
+    'This simulates Settl automatically collecting payments from all approved members.',
+    'Yes, complete session',
+    function(){
+      document.getElementById('modal-confirm-btn').style.background='#E11D48';
+      document.getElementById('modal-confirm-btn').style.color='white';
+      completeSessionDemo();
+    }
+  );
 }
 
 function completeSessionDemo(){
@@ -779,8 +1170,10 @@ function finishAndGoHome(){
   if(existing<0){var payments=appState._pendingPayments||appState.selectedParticipants.map(function(p){return {participantId:p.id,paid:true};}),approvals=appState._pendingApprovals||[],isRecurring=!!(ev.frequency&&ev.autoCollect);appState.groups.push({name:ev.name,cost:ev.cost,date:ev.date,venue:ev.venue,autoCollect:ev.autoCollect,frequency:ev.frequency,participants:appState.selectedParticipants.slice(),payments:payments,approvals:approvals,completed:!isRecurring,cancelled:false,sessionCount:0});}
   else{var g=appState.groups[existing];var isRec=!!(g.frequency&&g.autoCollect);if(!isRec)g.completed=true;}}
   recalcTotals();statusEntryPoint='new';completionMode='full';appState._viewingGroupIndex=-1;appState._pendingPayments=null;appState._pendingApprovals=null;
-  appState.currentEvent={name:'',cost:0,date:'',venue:'',autoCollect:true,frequency:''};appState.selectedParticipants=[];selectedSet=new Set(['sara','ahmed','lena','omar']);
+  appState.currentEvent={name:'',cost:0,date:'',venue:'',autoCollect:true,frequency:''};appState.selectedParticipants=[];invitedParticipants=[];selectedSet=new Set(['sara','ahmed','lena','omar']);
   document.getElementById('ev-name').value='';document.getElementById('ev-cost').value='';document.getElementById('ev-date').value='';document.getElementById('ev-venue').value='';
+  var invInput=document.getElementById('invite-input');if(invInput)invInput.value='';
+  var resultsDiv=document.getElementById('directory-results');if(resultsDiv)resultsDiv.innerHTML='';
   autoOn=true;document.getElementById('toggle-track').classList.remove('off');document.getElementById('auto-toggle-title').textContent='Auto-collection enabled';document.getElementById('auto-toggle-sub').textContent='Payments sent after each session';
   goTo('screen-home');
 }
@@ -789,12 +1182,197 @@ function formatDateShort(d){if(typeof d==='string')d=new Date(d+'T12:00:00');ret
 function formatDateLong(d){if(typeof d==='string')d=new Date(d+'T12:00:00');return d.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'});}
 function esc(str){return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
+// ─── Login functions ─────────────────────────────────────────────────────────
+function togglePasswordVisibility() {
+  var input = document.getElementById('login-password');
+  input.type = input.type === 'password' ? 'text' : 'password';
+}
+
+function loginWithUAEPass() {
+  // Show stage 1: UAE PASS verification screen
+  var stage1 = document.getElementById('uae-stage1');
+  stage1.style.display = 'flex';
+
+  // Animate dots sequentially over 6 seconds
+  var dots = document.querySelectorAll('#uae-dots-wrap .uae-dot');
+  var dotCount = dots.length;
+  var interval = 6000 / dotCount;
+  dots.forEach(function(dot){ dot.style.background = '#CBD5E1'; });
+  for(var di = 0; di < dotCount; di++){
+    (function(idx){
+      setTimeout(function(){
+        dots[idx].style.background = '#0F1F3D';
+      }, idx * interval);
+    })(di);
+  }
+
+  // After 6.5s: hide stage 1, show stage 2 spinner over grayed login
+  setTimeout(function(){
+    stage1.style.display = 'none';
+    var stage2 = document.getElementById('uae-stage2');
+    stage2.style.display = 'flex';
+
+    // After 4s of spinner: go to dashboard
+    setTimeout(function(){
+      stage2.style.display = 'none';
+      goTo('screen-home');
+    }, 4000);
+  }, 6500);
+}
+
+function cancelUAEPass() {
+  document.getElementById('uae-stage1').style.display = 'none';
+}
+
+function attemptLogin() {
+  var username = document.getElementById('login-username').value.trim();
+  var password = document.getElementById('login-password').value;
+  var errEl = document.getElementById('login-error');
+  errEl.style.display = 'none';
+
+  if (!username || !password) {
+    errEl.textContent = 'Please enter your username and password.';
+    errEl.style.display = 'block';
+    return;
+  }
+  if (username.length < 3) {
+    errEl.textContent = 'Username must be at least 3 characters.';
+    errEl.style.display = 'block';
+    return;
+  }
+  if (password.length < 6) {
+    errEl.textContent = 'Password must be at least 6 characters.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  document.getElementById('screen-login').classList.remove('active');
+  goTo('screen-home');
+}
+
 buildNav('nav-home','screen-home');
-renderHome();
 updateRecurringPreview();
+(function seedData(){
+  var today = new Date();
+  function dateOffset(days){
+    var d = new Date(today);
+    d.setDate(d.getDate() + days);
+    return d.toISOString().split('T')[0];
+  }
+
+  appState.groups = [
+    {
+      name:'Friday Padel',
+      cost:360,
+      date:dateOffset(1),
+      venue:'JCC Padel Club, JLT',
+      autoCollect:true,
+      frequency:'Weekly',
+      participants:[
+        {id:'sara',initials:'SR',name:'Sara Al Rashid',role:'Regular player',av:'av1'},
+        {id:'ahmed',initials:'AK',name:'Ahmed Khan',role:'Regular player',av:'av2'},
+        {id:'lena',initials:'LM',name:'Lena Müller',role:'Regular player',av:'av3'},
+        {id:'omar',initials:'OT',name:'Omar Taha',role:'Regular player',av:'av4'}
+      ],
+      payments:[
+        {participantId:'sara',paid:false},
+        {participantId:'ahmed',paid:false},
+        {participantId:'lena',paid:false},
+        {participantId:'omar',paid:false}
+      ],
+      approvals:[
+        {participantId:'sara',approved:true},
+        {participantId:'ahmed',approved:true},
+        {participantId:'lena',approved:true},
+        {participantId:'omar',approved:false}
+      ],
+      completed:false,
+      cancelled:false,
+      sessionCount:4
+    },
+    {
+      name:'Sunday Football',
+      cost:500,
+      date:dateOffset(3),
+      venue:'The Sevens Stadium',
+      autoCollect:false,
+      frequency:'',
+      participants:[
+        {id:'ahmed',initials:'AK',name:'Ahmed Khan',role:'Regular player',av:'av2'},
+        {id:'omar',initials:'OT',name:'Omar Taha',role:'Regular player',av:'av4'},
+        {id:'priya',initials:'PV',name:'Priya Verma',role:'Occasional player',av:'av5'}
+      ],
+      payments:[
+        {participantId:'ahmed',paid:true},
+        {participantId:'omar',paid:false},
+        {participantId:'priya',paid:false}
+      ],
+      approvals:[],
+      completed:false,
+      cancelled:false,
+      sessionCount:0
+    },
+    {
+      name:'Thursday Badminton',
+      cost:240,
+      date:dateOffset(5),
+      venue:'Dubai Sports City',
+      autoCollect:true,
+      frequency:'',
+      participants:[
+        {id:'sara',initials:'SR',name:'Sara Al Rashid',role:'Regular player',av:'av1'},
+        {id:'lena',initials:'LM',name:'Lena Müller',role:'Regular player',av:'av3'},
+        {id:'priya',initials:'PV',name:'Priya Verma',role:'Occasional player',av:'av5'}
+      ],
+      payments:[
+        {participantId:'sara',paid:false},
+        {participantId:'lena',paid:false},
+        {participantId:'priya',paid:false}
+      ],
+      approvals:[
+        {participantId:'sara',approved:false},
+        {participantId:'lena',approved:false},
+        {participantId:'priya',approved:false}
+      ],
+      completed:false,
+      cancelled:false,
+      sessionCount:0
+    },
+    {
+      name:'Saturday Padel',
+      cost:300,
+      date:dateOffset(-2),
+      venue:'Padel Pro Academy, DIFC',
+      autoCollect:true,
+      frequency:'',
+      participants:[
+        {id:'sara',initials:'SR',name:'Sara Al Rashid',role:'Regular player',av:'av1'},
+        {id:'ahmed',initials:'AK',name:'Ahmed Khan',role:'Regular player',av:'av2'},
+        {id:'omar',initials:'OT',name:'Omar Taha',role:'Regular player',av:'av4'}
+      ],
+      payments:[
+        {participantId:'sara',paid:true},
+        {participantId:'ahmed',paid:true},
+        {participantId:'omar',paid:true}
+      ],
+      approvals:[
+        {participantId:'sara',approved:true},
+        {participantId:'ahmed',approved:true},
+        {participantId:'omar',approved:true}
+      ],
+      completed:true,
+      cancelled:false,
+      sessionCount:0
+    }
+  ];
+
+  recalcTotals();
+})();
+renderHome();
 document.getElementById('ev-date').min=new Date().toISOString().split('T')[0];
-setTimeout(function(){
-  var splash=document.getElementById('welcome-splash');
-  if(splash){splash.style.transition='opacity 0.5s ease';splash.style.opacity='0';setTimeout(function(){splash.style.display='none';},500);}
-},2500);
+
+// ─── Show login screen first ──────────────────────────────────────────────────
+document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
+document.getElementById('screen-login').classList.add('active');
 </script>
+</html>
