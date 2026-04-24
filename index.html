@@ -144,26 +144,12 @@ h1.screen-title{font-size:28px;font-weight:700;color:#0f172a;letter-spacing:-0.5
 
 <!-- SCREEN: LOGIN -->
 <div class="screen active screen-transition" id="screen-login">
-  <!-- FIX 3: padding reduced and flex centering applied -->
   <div class="screen-content" style="padding:24px 24px 32px;display:flex;flex-direction:column;justify-content:center;min-height:100%;">
-    <!-- Logo block -->
     <div style="display:flex;flex-direction:column;align-items:center;text-align:center;margin-bottom:32px;">
-      <!-- FIX 1: Custom Settl logo replacing the star icon -->
-      <div style="width:90px;height:90px;background:#1B2B7E;border-radius:22px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;position:relative;flex-shrink:0;">
-        <svg width="58" height="58" viewBox="0 0 58 58" fill="none">
-          <path d="M14 14 C14 14 16 10 22 12 C28 14 26 20 32 20 C38 20 38 14 38 14" stroke="white" stroke-width="3.5" stroke-linecap="round" fill="none"/>
-          <path d="M14 26 C14 26 16 22 22 24 C28 26 26 32 32 32 C38 32 38 26 38 26" stroke="white" stroke-width="3.5" stroke-linecap="round" fill="none"/>
-          <path d="M14 38 C14 38 16 34 22 36 C28 38 26 44 32 44 C38 44 38 38 38 38" stroke="white" stroke-width="3.5" stroke-linecap="round" fill="none"/>
-        </svg>
-        <div style="position:absolute;bottom:6px;right:6px;width:18px;height:18px;background:#00C9A7;border-radius:50%;border:2px solid #1B2B7E;display:flex;align-items:center;justify-content:center;">
-          <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </div>
-      </div>
-      <div style="font-size:28px;font-weight:700;color:#0f172a;letter-spacing:-0.5px;">Settl</div>
-      <div style="font-size:13px;color:#94a3b8;margin-top:4px;">Group payment collection · UAE</div>
+      <div style="font-size:28px;font-weight:700;color:#0f172a;letter-spacing:-0.5px;">Welcome to Settl!</div>
+      <div style="font-size:13px;color:#94a3b8;margin-top:4px;"></div>
     </div>
 
-    <!-- UAE PASS button -->
     <button onclick="loginWithUAEPass()" style="display:flex;align-items:center;gap:12px;width:100%;padding:16px;background:#fff;border:1.5px solid #1a1a1a;border-radius:14px;cursor:pointer;font-family:inherit;margin-bottom:20px;">
       <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
         <circle cx="14" cy="14" r="5" stroke="#00C9A7" stroke-width="2" fill="none"/>
@@ -176,17 +162,14 @@ h1.screen-title{font-size:28px;font-weight:700;color:#0f172a;letter-spacing:-0.5
       <span style="font-size:16px;font-weight:700;color:#0f172a;">Sign in with UAE PASS</span>
     </button>
 
-    <!-- Divider -->
     <div style="display:flex;align-items:center;gap:12px;margin:20px 0;">
       <div style="flex:1;border-top:1.5px dashed #CBD5E1;"></div>
       <span style="font-size:13px;color:#CBD5E1;">or</span>
       <div style="flex:1;border-top:1.5px dashed #CBD5E1;"></div>
     </div>
 
-    <!-- Username field -->
     <input type="text" class="form-input" placeholder="Username" id="login-username" style="margin-bottom:12px;" />
 
-    <!-- Password field with toggle -->
     <div style="position:relative;margin-bottom:16px;">
       <input type="password" class="form-input" placeholder="Password" id="login-password" style="margin-bottom:0;padding-right:48px;" />
       <button onclick="togglePasswordVisibility()" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;padding:4px;display:flex;align-items:center;justify-content:center;">
@@ -198,42 +181,27 @@ h1.screen-title{font-size:28px;font-weight:700;color:#0f172a;letter-spacing:-0.5
       </button>
     </div>
 
-    <!-- Inline error -->
     <div id="login-error" style="font-size:13px;color:#E11D48;margin-bottom:10px;display:none;text-align:center;"></div>
 
-    <!-- Forgot links -->
     <div style="display:flex;justify-content:space-between;margin-bottom:20px;">
       <a href="#" style="font-size:13px;font-weight:500;color:#00C9A7;text-decoration:none;">Forgot username</a>
       <a href="#" style="font-size:13px;font-weight:500;color:#00C9A7;text-decoration:none;">Forgot password</a>
     </div>
 
-    <!-- Login button -->
     <button class="big-btn" onclick="attemptLogin()">Login</button>
-
-    <!-- Create account link -->
     <button style="display:flex;align-items:center;justify-content:center;width:100%;padding:14px;background:transparent;border:1.5px solid #0F1F3D;border-radius:14px;font-size:14px;font-weight:600;color:#0F1F3D;cursor:pointer;font-family:inherit;margin-top:12px;">Create an account</button>
-
-    <!-- FIX 2: Language selector removed -->
   </div>
 
-  <!-- UAE PASS Stage 1: Redesigned to match real UAE PASS app screen -->
   <div id="uae-stage1" style="display:none;position:absolute;top:0;left:0;right:0;bottom:0;background:#ffffff;border-radius:42px;z-index:500;flex-direction:column;overflow:hidden;">
-
-    <!-- Top bar -->
     <div style="display:flex;align-items:center;justify-content:space-between;padding:56px 20px 16px;">
       <div style="font-size:17px;font-weight:700;color:#1a1a1a;">Log in via UAE pass</div>
       <div onclick="cancelUAEPass()" style="width:32px;height:32px;border-radius:50%;background:#F1F5F9;display:flex;align-items:center;justify-content:center;cursor:pointer;">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 2l10 10M12 2L2 12" stroke="#64748b" stroke-width="2" stroke-linecap="round"/></svg>
       </div>
     </div>
-
-    <!-- Body: UAE PASS logo + card -->
     <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 24px 40px;">
-
-      <!-- UAE PASS logo mark (fingerprint SVG recreation) -->
       <div style="display:flex;align-items:center;gap:14px;margin-bottom:40px;">
         <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
-          <!-- fingerprint rings -->
           <circle cx="28" cy="28" r="24" stroke="#CBD5E1" stroke-width="1.5" fill="none"/>
           <path d="M28 10 C17 10 8 19 8 30" stroke="#E11D48" stroke-width="2" stroke-linecap="round" fill="none"/>
           <path d="M28 10 C39 10 48 19 48 30" stroke="#0F1F3D" stroke-width="2" stroke-linecap="round" fill="none"/>
@@ -248,13 +216,9 @@ h1.screen-title{font-size:28px;font-weight:700;color:#0f172a;letter-spacing:-0.5
           <div style="font-size:22px;font-weight:800;color:#1a1a1a;letter-spacing:0.5px;">UAE PASS</div>
         </div>
       </div>
-
-      <!-- Card -->
       <div style="background:#fff;border:1px solid #E2E8F0;border-radius:16px;padding:28px 24px;width:100%;text-align:center;">
         <div style="font-size:15px;font-weight:500;color:#1a1a1a;margin-bottom:10px;">Settl requires that you log in.</div>
         <div style="font-size:13px;color:#64748b;line-height:1.6;margin-bottom:22px;">This page will reload automatically<br/>once verification is complete.</div>
-
-        <!-- Segmented loading dots -->
         <div style="display:flex;gap:5px;justify-content:center;margin-bottom:20px;" id="uae-dots-wrap">
           <div class="uae-dot" style="width:18px;height:18px;border-radius:50%;background:#CBD5E1;transition:background 0.3s;"></div>
           <div class="uae-dot" style="width:18px;height:18px;border-radius:50%;background:#CBD5E1;transition:background 0.3s;"></div>
@@ -269,13 +233,11 @@ h1.screen-title{font-size:28px;font-weight:700;color:#0f172a;letter-spacing:-0.5
           <div class="uae-dot" style="width:18px;height:18px;border-radius:50%;background:#CBD5E1;transition:background 0.3s;"></div>
           <div class="uae-dot" style="width:18px;height:18px;border-radius:50%;background:#CBD5E1;transition:background 0.3s;"></div>
         </div>
-
         <button onclick="cancelUAEPass()" style="width:100%;padding:14px;background:#fff;border:1.5px solid #E2E8F0;border-radius:12px;font-size:15px;font-weight:500;color:#1a1a1a;cursor:pointer;font-family:inherit;">Cancel</button>
       </div>
     </div>
   </div>
 
-  <!-- UAE PASS Stage 2: Login page grayed out with spinner -->
   <div id="uae-stage2" style="display:none;position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(245,246,250,0.85);border-radius:42px;z-index:500;align-items:center;justify-content:center;">
     <svg width="48" height="48" viewBox="0 0 48 48" fill="none" style="animation:spinLoop 0.9s linear infinite;">
       <circle cx="24" cy="24" r="20" stroke="#E2E8F0" stroke-width="4" fill="none"/>
@@ -294,7 +256,7 @@ h1.screen-title{font-size:28px;font-weight:700;color:#0f172a;letter-spacing:-0.5
     <div class="quick-stat">
       <div class="qs-card"><div class="qs-val" id="qs-collected" style="color:#00C9A7;">AED 0</div><div class="qs-lbl">Collected</div></div>
       <div class="qs-card"><div class="qs-val" id="qs-pending" style="color:#F97066;">AED 0</div><div class="qs-lbl">Pending</div></div>
-      <div class="qs-card"><div class="qs-val" id="qs-active" style="color:#0F1F3D;">0</div><div class="qs-lbl">Active</div></div>
+      <div class="qs-card"><div class="qs-val" id="qs-active" style="color:#0F1F3D;font-size: 25px;">0</div><div class="qs-lbl">Active</div></div>
     </div>
     <div id="groups-list"></div>
   </div>
@@ -357,8 +319,6 @@ h1.screen-title{font-size:28px;font-weight:700;color:#0f172a;letter-spacing:-0.5
       <div><div class="split-label">Total cost</div><div class="split-amount" id="split-total-display">AED 0</div></div>
       <div style="text-align:right;"><div class="split-label">Per person</div><div class="split-amount" id="split-display">AED 0</div><div class="split-each" id="split-count">0 players</div></div>
     </div>
-
-    <!-- Search-based invite card -->
     <div class="card" style="margin-bottom:16px;padding:14px 16px;">
       <div style="font-size:13px;font-weight:600;color:#475569;margin-bottom:4px;">Find on Settl</div>
       <div style="font-size:12px;color:#94a3b8;margin-bottom:10px;">Search by name or phone number</div>
@@ -368,7 +328,6 @@ h1.screen-title{font-size:28px;font-weight:700;color:#0f172a;letter-spacing:-0.5
       </div>
       <div id="directory-results" style="margin-top:8px;"></div>
     </div>
-
     <div class="section-header">Contacts &amp; Invited</div>
     <div id="participant-list"></div>
     <button class="big-btn" style="margin-top:8px;" onclick="saveParticipantsAndNext()">Enable Automation<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M5 8h6M8 5l3 3-3 3" stroke="#0F1F3D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
@@ -784,7 +743,7 @@ function renderGroupCard(g,i){
     pct=ps.length>0?Math.round((ac/ps.length)*100):0;progressLeft=ac+' of '+ps.length+' approved';progressRight=ac===ps.length?'Ready to collect':(ps.length-ac)+' awaiting';barClass=(ac===ps.length)?'fill-teal':'fill-amber';
   }else{
     var pc=g.payments?g.payments.filter(function(p){return p.paid;}).length:0;
-    pct=ps.length>0?Math.round((pc/ps.length)*100):0;badgeHtml='<span class="badge badge-amber">In Progress</span>';progressLeft=pc+' of '+ps.length+' paid';progressRight='AED '+(ps.length-pc)*bs+' remaining';barClass='fill-teal';
+    pct=ps.length>0?Math.round((pc/ps.length)*100):0;badgeHtml='<span class="badge badge-teal">In Progress</span>';progressLeft=pc+' of '+ps.length+' paid';progressRight='AED '+(ps.length-pc)*bs+' remaining';barClass='fill-teal';
   }
   var dateStr=g.date?formatDateShort(g.date):'';
   var infoRow='';
@@ -930,6 +889,7 @@ function simulateParticipantApprove(){
   goTo('screen-status');
 }
 
+// ─── renderProfile — MODIFIED ────────────────────────────────────────────────
 function renderProfile(){
   recalcTotals();var n=appState.groups.length;
   var avgSize=n>0?Math.round(appState.groups.reduce(function(s,g){return s+g.participants.length+1;},0)/n):0;
@@ -939,22 +899,26 @@ function renderProfile(){
       var unpaid = g.payments ? g.payments.filter(function(p){ return !p.paid; }).length : 0;
       return sum + unpaid * bs;
     }, 0);
-  var html = '<div style="background:linear-gradient(135deg,#0F1F3D,#00C9A7);border-radius:20px;padding:20px 18px;margin-bottom:12px;">'
-    + '<div style="font-size:12px;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:14px;">Organiser Dashboard</div>'
-    + '<div style="display:flex;justify-content:space-between;gap:10px;">'
-    + '<div style="flex:1;background:rgba(255,255,255,0.12);border-radius:14px;padding:14px;text-align:center;">'
-    + '<div style="font-size:22px;font-weight:700;color:white;">' + appState.groups.filter(function(g){return !g.cancelled;}).length + '</div>'
-    + '<div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:4px;">Total Games</div></div>'
-    + '<div style="flex:1;background:rgba(255,255,255,0.12);border-radius:14px;padding:14px;text-align:center;">'
-    + '<div style="font-size:22px;font-weight:700;color:white;">AED ' + appState.totalCollected + '</div>'
-    + '<div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:4px;">Total Collected</div></div>'
-    + '<div style="flex:1;background:rgba(255,255,255,0.12);border-radius:14px;padding:14px;text-align:center;">'
-    + '<div style="font-size:22px;font-weight:700;color:#FFD166;">AED ' + outstanding + '</div>'
-    + '<div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:4px;">Outstanding</div></div>'
-    + '</div></div>';
+
+  // Step 1: var html starts empty (Organiser Dashboard banner removed)
+  var html = '';
+
+  // Profile avatar card — unchanged
   html+='<div class="card" style="display:flex;flex-direction:column;align-items:center;text-align:center;padding:24px 18px 20px;"><div class="profile-avatar">YO</div><div style="font-size:18px;font-weight:700;color:#0f172a;">Organiser</div><div style="font-size:13px;color:#94a3b8;margin-top:4px;">Group Admin</div></div>';
-  html+='<div class="card"><div style="font-size:13px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:12px;">Your Stats</div><div class="stat-row"><span class="stat-label">Events organised</span><span class="stat-value">'+n+'</span></div><div class="stat-row" style="border-top:1px solid #F1F5F9;"><span class="stat-label">Total collected</span><span class="stat-value green">AED '+appState.totalCollected+'</span></div><div class="stat-row" style="border-top:1px solid #F1F5F9;"><span class="stat-label">Avg group size</span><span class="stat-value">'+(avgSize||'—')+(avgSize?' players':'')+'</span></div></div>';
+
+  // Step 2: Your Stats card upgraded to gradient design with Outstanding row
+  html+='<div style="background:linear-gradient(135deg,#0F1F3D,#00C9A7);border-radius:20px;padding:20px 18px;margin-bottom:12px;">'
+      +'<div style="font-size:12px;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:14px;">Your Stats</div>'
+      +'<div style="background:rgba(255,255,255,0.08);border-radius:14px;padding:4px 16px;">'
+      +'<div class="stat-row" style="border-bottom:1px solid rgba(255,255,255,0.1);"><span style="font-size:13px;color:rgba(255,255,255,0.7);">Events organised</span><span style="font-size:14px;font-weight:600;color:white;">'+n+'</span></div>'
+      +'<div class="stat-row" style="border-bottom:1px solid rgba(255,255,255,0.1);"><span style="font-size:13px;color:rgba(255,255,255,0.7);">Total collected</span><span style="font-size:14px;font-weight:600;color:white;">AED '+appState.totalCollected+'</span></div>'
+      +'<div class="stat-row" style="border-bottom:1px solid rgba(255,255,255,0.1);"><span style="font-size:13px;color:rgba(255,255,255,0.7);">Avg group size</span><span style="font-size:14px;font-weight:600;color:white;">'+(avgSize||'—')+(avgSize?' players':'')+'</span></div>'
+      +'<div class="stat-row"><span style="font-size:13px;color:rgba(255,255,255,0.7);">Outstanding</span><span style="font-size:14px;font-weight:600;color:#FFD166;">AED '+outstanding+'</span></div>'
+      +'</div></div>';
+
+  // Settl Pro card — unchanged
   html+='<div class="card" style="border:1.5px solid #00C9A7;"><div style="display:flex;justify-content:space-between;align-items:center;"><div><div style="font-size:15px;font-weight:700;color:#0f172a;">Settl Pro</div><div style="font-size:13px;color:#64748b;margin-top:2px;">AED 19 / month</div></div><span class="badge badge-green">Active</span></div></div>';
+
   document.getElementById('profile-content').innerHTML=html;
 }
 
@@ -1195,11 +1159,8 @@ function togglePasswordVisibility() {
 }
 
 function loginWithUAEPass() {
-  // Show stage 1: UAE PASS verification screen
   var stage1 = document.getElementById('uae-stage1');
   stage1.style.display = 'flex';
-
-  // Animate dots sequentially over 6 seconds
   var dots = document.querySelectorAll('#uae-dots-wrap .uae-dot');
   var dotCount = dots.length;
   var interval = 6000 / dotCount;
@@ -1211,14 +1172,10 @@ function loginWithUAEPass() {
       }, idx * interval);
     })(di);
   }
-
-  // After 6.5s: hide stage 1, show stage 2 spinner over grayed login
   setTimeout(function(){
     stage1.style.display = 'none';
     var stage2 = document.getElementById('uae-stage2');
     stage2.style.display = 'flex';
-
-    // After 4s of spinner: go to dashboard
     setTimeout(function(){
       stage2.style.display = 'none';
       goTo('screen-home');
@@ -1235,7 +1192,6 @@ function attemptLogin() {
   var password = document.getElementById('login-password').value;
   var errEl = document.getElementById('login-error');
   errEl.style.display = 'none';
-
   if (!username || !password) {
     errEl.textContent = 'Please enter your username and password.';
     errEl.style.display = 'block';
@@ -1251,7 +1207,6 @@ function attemptLogin() {
     errEl.style.display = 'block';
     return;
   }
-
   document.getElementById('screen-login').classList.remove('active');
   goTo('screen-home');
 }
@@ -1377,7 +1332,6 @@ updateRecurringPreview();
 renderHome();
 document.getElementById('ev-date').min=new Date().toISOString().split('T')[0];
 
-// ─── Show login screen first ──────────────────────────────────────────────────
 document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
 document.getElementById('screen-login').classList.add('active');
 </script>
