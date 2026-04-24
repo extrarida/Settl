@@ -144,11 +144,20 @@ h1.screen-title{font-size:28px;font-weight:700;color:#0f172a;letter-spacing:-0.5
 
 <!-- SCREEN: LOGIN -->
 <div class="screen active screen-transition" id="screen-login">
-  <div class="screen-content" style="padding:60px 24px 40px;">
+  <!-- FIX 3: padding reduced and flex centering applied -->
+  <div class="screen-content" style="padding:24px 24px 32px;display:flex;flex-direction:column;justify-content:center;min-height:100%;">
     <!-- Logo block -->
     <div style="display:flex;flex-direction:column;align-items:center;text-align:center;margin-bottom:32px;">
-      <div style="width:72px;height:72px;background:linear-gradient(135deg,#00C9A7,#0F1F3D);border-radius:22px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;">
-        <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><path d="M18 6l3.5 7 7.5 1.1-5.5 5.3 1.3 7.5L18 23.5l-6.8 3.4 1.3-7.5L7 14.1l7.5-1.1L18 6z" fill="white" opacity="0.95"/></svg>
+      <!-- FIX 1: Custom Settl logo replacing the star icon -->
+      <div style="width:90px;height:90px;background:#1B2B7E;border-radius:22px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;position:relative;flex-shrink:0;">
+        <svg width="58" height="58" viewBox="0 0 58 58" fill="none">
+          <path d="M14 14 C14 14 16 10 22 12 C28 14 26 20 32 20 C38 20 38 14 38 14" stroke="white" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+          <path d="M14 26 C14 26 16 22 22 24 C28 26 26 32 32 32 C38 32 38 26 38 26" stroke="white" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+          <path d="M14 38 C14 38 16 34 22 36 C28 38 26 44 32 44 C38 44 38 38 38 38" stroke="white" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+        </svg>
+        <div style="position:absolute;bottom:6px;right:6px;width:18px;height:18px;background:#00C9A7;border-radius:50%;border:2px solid #1B2B7E;display:flex;align-items:center;justify-content:center;">
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5l2 2 4-4" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
       </div>
       <div style="font-size:28px;font-weight:700;color:#0f172a;letter-spacing:-0.5px;">Settl</div>
       <div style="font-size:13px;color:#94a3b8;margin-top:4px;">Group payment collection · UAE</div>
@@ -204,10 +213,7 @@ h1.screen-title{font-size:28px;font-weight:700;color:#0f172a;letter-spacing:-0.5
     <!-- Create account link -->
     <button style="display:flex;align-items:center;justify-content:center;width:100%;padding:14px;background:transparent;border:1.5px solid #0F1F3D;border-radius:14px;font-size:14px;font-weight:600;color:#0F1F3D;cursor:pointer;font-family:inherit;margin-top:12px;">Create an account</button>
 
-    <!-- Language selector -->
-    <div style="display:flex;justify-content:center;margin-top:16px;">
-      <span style="font-size:14px;color:#0f172a;background:#F1F5F9;border-radius:12px;padding:12px 24px;cursor:pointer;">English ∨</span>
-    </div>
+    <!-- FIX 2: Language selector removed -->
   </div>
 
   <!-- UAE PASS Stage 1: Redesigned to match real UAE PASS app screen -->
