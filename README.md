@@ -4,6 +4,8 @@
 
 Settl is a mobile app prototype designed for the UAE market that eliminates the friction of collecting shared payments from groups. Built for sports organisers, social group admins, and anyone who regularly splits costs — Settl automates the entire collection process through open banking, so organisers never have to chase, remind, or follow up again.
 
+Link to use Prototype: https://extrarida.github.io/Settl/
+
 ---
 
 ## Table of Contents
